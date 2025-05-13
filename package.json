@@ -3,10 +3,27 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Benjamin Choon",
   "license": "ISC",
-  "description": ""
+  "description": "A simple application to track your shows",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.14.2",
+    "node": "^24.0.1",
+    "vue": "^3.5.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simplicity0308/Kiroku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/simplicity0308/Kiroku/issues"
+  },
+  "homepage": "https://github.com/simplicity0308/Kiroku#readme"
 }
