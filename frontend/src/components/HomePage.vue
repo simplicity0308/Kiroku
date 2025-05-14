@@ -8,18 +8,12 @@
         
         <div class = "existing-show-container">
             <h2 class="title-header">既存</h2>
-            <div class = "existing-show-pane">
-                <div v-for="show in existingShowList" :key="show.id" class="show-card">
-                    <h3 class="id-card">{{ show.id }}</h3>
-                    <span><strong>Title:</strong><span class="id-card-text">{{ show.title }} </span></span> 
-                    <span><strong>Status: </strong><span class= "id-card-text">{{ show.status }}</span></span>
-                    <div class="button-group">
-                        <button class="delete-button" @click="toggleDeleteModal(show.id)">Delete</button>
-                        <button class="update-button" @click="toggleUpdateModal(show.id)">Update</button>
-                        <button class="view-button" @click="toggleViewModal(show.id)">View</button>
-                    </div>
-                </div>
-            </div>
+            <ShowList
+                :shows="existingShowList"
+                @delete="toggleDeleteModal"
+                @update="toggleUpdateModal"
+                @view="toggleViewModal"
+            />
         </div>
 
         <div class="action-pane">
@@ -27,7 +21,7 @@
         </div>
     </div>
 
-    <div v-if="showAddNewModal" class="modal-overlay">
+    <div v-if="showAddNewModal" class="modal-overlay" @click.self="closeAddModal">
         <div class ="modal-content">
             <h2> Add new Show</h2>
             
@@ -44,7 +38,7 @@
             <div class="form-group">
                 <label for="episode">Episode:</label>
                 <input 
-                    type="text" 
+                    type="number" 
                     id="episode" 
                     v-model="newShow.episode" 
                     placeholder="Enter show episode"
@@ -73,18 +67,18 @@
             </div>
             <div class="modal-actions">
                 <button class="submit-button" @click="submitAddShow">Add New Show</button>
-                <button class="cancel-button" @click="toggleAddNewModal">Cancel</button>
+                <button class="cancel-button" @click="closeAddNewModal">Cancel</button>
             </div>
         </div>
     </div>
 
-    <div v-if="showUpdateModal" class="modal-overlay" @click.self="toggleUpdateModal">
+    <div v-if="showUpdateModal" class="modal-overlay" @click.self="closeUpdateModal">
         <div class ="modal-content">
-            <h2>Update Show</h2>
-            <div>Please enter show details to update</div>
+            <div class="title-header">Update Show</div>
+            <div class="prompt-text">Please enter show details to update</div>
                 <div class="update-panes-container">
                     <div class="update-show-left">
-                        <div>Current</div>
+                        <div class="prompt-text">Current</div>
                         <div class="show-card">
                             <p>Title: {{ showDetails.title }}</p>
                             <p>Status: {{ showDetails.status }}</p>
@@ -94,7 +88,7 @@
                     </div>
 
                     <div class="update-show-right">
-                        <div>New</div>
+                        <div class="prompt-text">New</div>
                         <div class ="show-card">
                     
                     
@@ -111,7 +105,7 @@
                             <div class="form-group">
                                 <label for="episode">Episode:</label>
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     id="episode" 
                                     v-model="newShow.episode" 
                                     placeholder="Enter new episode"
@@ -143,13 +137,13 @@
             </div>
             <div class="modal-actions">
                 <button class="submit-button" @click="submitUpdateShow">Update Show</button>
-                <button class="cancel-button" @click="toggleUpdateModal">Cancel</button>
+                <button class="cancel-button" @click="closeUpdateModal">Cancel</button>
             </div>
         </div>
 
     </div>
     
-    <div v-if="showViewModal" class="modal-overlay" @click.self="toggleViewModal"> 
+    <div v-if="showViewModal" class="modal-overlay" @click.self="closeViewModal"> 
         <div class ="modal-content">
             <div class="view-show-header"> {{ showDetails.title }} </div>
             <div class="view-pane-container">
@@ -160,7 +154,7 @@
                     <p><strong>Notes: </strong> <span class="id-card-text">{{ showDetails.notes }}</span></p>
                     </div>
                     <div class="modal-actions view-close">
-                    <button class="cancel-button" @click="toggleViewModal">Close</button>
+                    <button class="cancel-button" @click="closeViewModal">Close</button>
                     </div>
                 </div>
             </div>
@@ -180,7 +174,7 @@
             </div>
             <div class="modal-actions">
                 <button class="submit-button" @click="deleteShow(showDetails.id)">Yes</button>
-                <button class="cancel-button" @click="toggleDeleteModal">No</button>
+                <button class="cancel-button" @click="closeDeleteModal">No</button>
             </div>
         </div>
     </div>
@@ -189,6 +183,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+
+// components
+import ShowList from './ShowList.vue';
 
 // modal states
 const showAddNewModal = ref(false); 
@@ -199,7 +196,6 @@ const showConfirmDeleteModal = ref(false);
 // toggle modal
 const toggleAddNewModal = () => {
     showAddNewModal.value = !showAddNewModal.value;
-
     // reset new show data
     newShow.value = {
         title: '',
@@ -208,6 +204,58 @@ const toggleAddNewModal = () => {
         notes: ''
     };
 }
+const closeAddNewModal = () => {
+    showAddNewModal.value = false;
+    newShow.value = {
+        title: '',
+        episode: '',
+        status: '',
+        notes: ''
+    };
+}
+
+const toggleUpdateModal = (showId) => {
+    getSingularShow(showId);
+    showUpdateModal.value = !showUpdateModal.value;
+}
+const closeUpdateModal = () => {
+    showUpdateModal.value = false;
+    showDetails.value = {
+        title: '',
+        episode: '',
+        status: '',
+        notes: ''
+    };
+}
+
+const toggleViewModal = (showId) => {
+    getSingularShow(showId);
+    showViewModal.value = !showViewModal.value;
+}
+const closeViewModal = () => {
+    showViewModal.value = false;
+    showDetails.value = {
+        title: '',
+        episode: '',
+        status: '',
+        notes: ''
+    };
+}
+
+const toggleDeleteModal = (showId) => {
+    getSingularShow(showId);
+    showConfirmDeleteModal.value = !showConfirmDeleteModal.value;
+}
+const closeDeleteModal = () => {
+    showConfirmDeleteModal.value = false;
+    showDetails.value = {
+        title: '',
+        episode: '',
+        status: '',
+        notes: ''
+    };
+}
+
 
 const backToTop = () => {
     window.scrollTo({
@@ -221,21 +269,6 @@ const toBottom = () => {
         top: document.body.scrollHeight,
         behavior: 'smooth'
     });
-}
-
-const toggleUpdateModal = (showId) => {
-    getSingularShow(showId);
-    showUpdateModal.value = !showUpdateModal.value;
-}
-
-const toggleViewModal = (showId) => {
-    getSingularShow(showId);
-    showViewModal.value = !showViewModal.value;
-}
-
-const toggleDeleteModal = (showId) => {
-    getSingularShow(showId);
-    showConfirmDeleteModal.value = !showConfirmDeleteModal.value;
 }
 
 // for existing show display
@@ -796,6 +829,15 @@ const getSingularShow = async (showId) => {
         0 0 5px #ff0000,
         0 0 20px #ff0000 inset;
     transform: scale(1.05);
+}
+.prompt-text {
+    margin-top: 5px;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    transform: skewX(-10deg);
+    display: inline-block;
+    text-shadow: 6px 1px 2px rgb(114, 59, 59);
 }
 </style>
 
