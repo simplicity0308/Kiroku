@@ -21,58 +21,24 @@
         </div>
     </div>
 
-    <div v-if="showAddNewModal" class="modal-overlay" @click.self="closeAddModal">
-        <div class ="modal-content">
-            <h2> Add new Show</h2>
-            
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input 
-                    type="text" 
-                    id="title" 
-                    v-model="newShow.title" 
-                    placeholder="Enter show title"
-                />
-            </div>
+    <AddShowModal
+        v-model="showAddNewModal"
+        :show="newShow"
+        @close="closeAddNewModal"
+        @submit="submitAddShow"
+        @cancel="closeAddNewModal"
+    />
 
-            <div class="form-group">
-                <label for="episode">Episode:</label>
-                <input 
-                    type="number" 
-                    id="episode" 
-                    v-model="newShow.episode" 
-                    placeholder="Enter show episode"
-                />
-            </div>
+    <UpdateShowModal
+        v-model="showUpdateModal"
+        :show="currentShow"
+        :newShow="newShow"
+        @close="closeUpdateModal"
+        @update="submitUpdateShow"
+        @cancel="closeUpdateModal"
+    />
 
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <select v-model="newShow.status">
-                    <option disabled value="">Select status</option>
-                    <option value="watching">Watching</option>
-                    <option value="completed">Completed</option>
-                    <option value="on hold">On Hold</option>
-                    <option value="dropped">Dropped</option>
-                    <option value="plan to watch">Plan to Watch</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="notes">Notes:</label>
-                <textarea 
-                    id="notes" 
-                    v-model="newShow.notes" 
-                    placeholder="Enter notes"
-                />
-            </div>
-            <div class="modal-actions">
-                <button class="submit-button" @click="submitAddShow">Add New Show</button>
-                <button class="cancel-button" @click="closeAddNewModal">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <div v-if="showUpdateModal" class="modal-overlay" @click.self="closeUpdateModal">
+    <!-- <div v-if="showUpdateModal" class="modal-overlay" @click.self="closeUpdateModal">
         <div class ="modal-content">
             <div class="title-header">Update Show</div>
             <div class="prompt-text">Please enter show details to update</div>
@@ -141,17 +107,23 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
+
+    <ViewShowModal
+        v-model="showViewModal"
+        :show="currentShow"
+        @close="closeViewModal"
+    />
     
-    <div v-if="showViewModal" class="modal-overlay" @click.self="closeViewModal"> 
+    <!-- <div v-if="showViewModal" class="modal-overlay" @click.self="closeViewModal"> 
         <div class ="modal-content">
-            <div class="view-show-header"> {{ showDetails.title }} </div>
+            <div class="view-show-header"> {{ currentShow.title }} </div>
             <div class="view-pane-container">
                 <div class="view-content">
                     <div class="show-card-view">
-                    <p><strong>Status: </strong> <span class="id-card-text">{{ showDetails.status }}</span></p>
-                    <p><strong>Episode: </strong> <span class="id-card-text">{{ showDetails.episode }}</span></p>
-                    <p><strong>Notes: </strong> <span class="id-card-text">{{ showDetails.notes }}</span></p>
+                    <p><strong>Status: </strong> <span class="id-card-text">{{ currentShow.status }}</span></p>
+                    <p><strong>Episode: </strong> <span class="id-card-text">{{ currentShow.episode }}</span></p>
+                    <p><strong>Notes: </strong> <span class="id-card-text">{{ currentShow.notes }}</span></p>
                     </div>
                     <div class="modal-actions view-close">
                     <button class="cancel-button" @click="closeViewModal">Close</button>
@@ -160,20 +132,20 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 
 
     <div v-if="showConfirmDeleteModal" class="modal-overlay">
         <div class ="modal-content">
             <div class="title-header"><strong>削除を確認する</strong></div>
             <div class="show-card">
-                <p><strong>Title: </strong> <span class="id-card-text">{{ showDetails.title }}</span></p>
-                <p><strong>Status: </strong> <span class="id-card-text">{{ showDetails.status }}</span></p>
-                <p><strong>Episode: </strong> <span class="id-card-text">{{ showDetails.episode }}</span></p>
-                <p><strong>Notes: </strong> <span class="id-card-text">{{ showDetails.notes }}</span></p>
+                <p><strong>Title: </strong> <span class="id-card-text">{{ currentShow.title }}</span></p>
+                <p><strong>Status: </strong> <span class="id-card-text">{{ currentShow.status }}</span></p>
+                <p><strong>Episode: </strong> <span class="id-card-text">{{ currentShow.episode }}</span></p>
+                <p><strong>Notes: </strong> <span class="id-card-text">{{ currentShow.notes }}</span></p>
             </div>
             <div class="modal-actions">
-                <button class="submit-button" @click="deleteShow(showDetails.id)">Yes</button>
+                <button class="submit-button" @click="deleteShow(currentShow.id)">Yes</button>
                 <button class="cancel-button" @click="closeDeleteModal">No</button>
             </div>
         </div>
@@ -185,7 +157,10 @@
 import { ref, onMounted } from 'vue';
 
 // components
-import ShowList from './ShowList.vue';
+import ShowList from '../views/ShowList.vue';
+import AddShowModal from '../views/AddShowModal.vue';
+import UpdateShowModal from '../views/UpdateShowModal.vue';
+import ViewShowModal from '../views/ViewShowModal.vue';
 
 // modal states
 const showAddNewModal = ref(false); 
@@ -220,7 +195,7 @@ const toggleUpdateModal = (showId) => {
 }
 const closeUpdateModal = () => {
     showUpdateModal.value = false;
-    showDetails.value = {
+    newShow.value = {
         title: '',
         episode: '',
         status: '',
@@ -229,12 +204,13 @@ const closeUpdateModal = () => {
 }
 
 const toggleViewModal = (showId) => {
+    console.log("showId", showId);
     getSingularShow(showId);
     showViewModal.value = !showViewModal.value;
 }
 const closeViewModal = () => {
     showViewModal.value = false;
-    showDetails.value = {
+    currentShow.value = {
         title: '',
         episode: '',
         status: '',
@@ -248,7 +224,7 @@ const toggleDeleteModal = (showId) => {
 }
 const closeDeleteModal = () => {
     showConfirmDeleteModal.value = false;
-    showDetails.value = {
+    currentShow.value = {
         title: '',
         episode: '',
         status: '',
@@ -284,7 +260,7 @@ const newShow = ref({
 });
 
 // show details
-const showDetails = ref({
+const currentShow = ref({
     title: '',
     episode: '',
     status: '',
@@ -293,6 +269,7 @@ const showDetails = ref({
 
 const submitAddShow = async () => {
     // input validation
+    console.log("new show", newShow.value);
     if (!newShow.value.title) {
         alert("Title is required");
         return;
@@ -385,7 +362,8 @@ const submitUpdateShow = async () => {   // input validation
         return;
     } else {
         await updateShow(newShow.value);
-        toggleUpdateModal();
+        // toggleUpdateModal();
+        closeUpdateModal();
         await fetchAllShows(); // refresh the show list
         newShow.value = {
             title: '',
@@ -398,8 +376,9 @@ const submitUpdateShow = async () => {   // input validation
 
 const updateShow = async (newShow) => {
     try{
-        newShow.id = showDetails.value.id; 
+        newShow.id = currentShow.value.id; 
         console.log("sending update req")
+        console.log("new show", newShow);
         const response = await fetch(`http://localhost:3000/shows/updateById`, {
             method: 'PUT',
             headers: {
@@ -435,7 +414,7 @@ const getSingularShow = async (showId) => {
         const data = await response.json();
         if (response.ok) {
             console.log("Fetched show successfully", data);
-            showDetails.value = data;
+            currentShow.value = data;
         } else {
             console.error("Error fetching show:", data);
             alert("Error fetching show: " + data.message);

@@ -35,6 +35,10 @@ defineEmits(['delete', 'update', 'view']);
     margin: 10px;
     width: auto;
     box-shadow: 0 0 10px 3px rgb(19, 17, 19);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .id-card {
     font-size: 25px;
@@ -43,6 +47,14 @@ defineEmits(['delete', 'update', 'view']);
     margin-bottom: 1px;
     text-align: center;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.id-card-headers {
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 .id-card-text {
     color: white;
