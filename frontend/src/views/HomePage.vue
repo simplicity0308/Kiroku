@@ -5,17 +5,19 @@
         <div class = "header">
             <h1>Kiroku 記録</h1>
         </div>
-        
         <div class = "existing-show-container">
             <h2 class="title-header">既存</h2>
+
             <ShowList
                 :shows="existingShowList"
                 @delete="toggleDeleteModal"
                 @update="toggleUpdateModal"
                 @view="toggleViewModal"
+                @increaseEpisode="increaseEpisode"
+                @decreaseEpisode="decreaseEpisode"
             />
-        </div>
 
+        </div>
         <div class="action-pane">
             <button class="new-button" @click="toggleAddNewModal">New Entry</button>
         </div>
@@ -50,19 +52,32 @@
         @close="closeDeleteModal"
         @confirm="submitDeleteShow(currentShow.id)"
     />
-    
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 
 // components
-import ShowList from '../views/ShowList.vue';
-import AddShowModal from '../views/AddShowModal.vue';
-import UpdateShowModal from '../views/UpdateShowModal.vue';
-import ViewShowModal from '../views/ViewShowModal.vue';
-import DeleteShowModal from '../views/DeleteShowModal.vue';
+import ShowList from '../components/ShowList.vue';
+import AddShowModal from '../components/AddShowModal.vue';
+import UpdateShowModal from '../components/UpdateShowModal.vue';
+import ViewShowModal from '../components/ViewShowModal.vue';
+import DeleteShowModal from '../components/DeleteShowModal.vue';
 import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow } from '../services/ShowService.js';
+import { changeShowEpisode } from '../services/showAttributeService.js'; 
+
+// composables
+import { useShowsStates } from '../composables/useShowsStates.js';
+
+// get states and actions from the composable
+const {
+    existingShowList,
+    currentShow,
+    newShow,
+
+    resetNewShow,
+    resetCurrentShow
+} = useShowsStates();
 
 // modal states
 const showAddNewModal = ref(false); 
@@ -73,22 +88,11 @@ const showConfirmDeleteModal = ref(false);
 // toggle modal
 const toggleAddNewModal = () => {
     showAddNewModal.value = !showAddNewModal.value;
-    // reset new show data
-    newShow.value = {
-        title: undefined,
-        episode: undefined,
-        status: undefined,
-        notes: undefined
-    };
+    resetNewShow();
 }
 const closeAddNewModal = () => {
     showAddNewModal.value = false;
-    newShow.value = {
-        title: undefined,
-        episode: undefined,
-        status: undefined,
-        notes: undefined
-    };
+    resetNewShow();
 }
 
 // on mount, fetch existing shows
@@ -120,12 +124,7 @@ const toggleUpdateModal = async (showId) => {
 
 const closeUpdateModal = () => {
     showUpdateModal.value = false;
-    newShow.value = {
-        title: undefined,
-        episode: undefined,
-        status: undefined,
-        notes: undefined
-    };
+    resetNewShow();
 }
 
 const toggleViewModal = async (showId) => {
@@ -142,12 +141,7 @@ const toggleViewModal = async (showId) => {
 }
 const closeViewModal = () => {
     showViewModal.value = false;
-    currentShow.value = {
-        title: undefined,
-        episode: undefined,
-        status: undefined,
-        notes: undefined
-    };
+    resetCurrentShow();
 }
 
 const toggleDeleteModal = async (showId) => {
@@ -166,12 +160,7 @@ const toggleDeleteModal = async (showId) => {
 
 const closeDeleteModal = () => {
     showConfirmDeleteModal.value = false;
-    currentShow.value = {
-        title: undefined,
-        episode: undefined,
-        status: undefined,
-        notes: undefined
-    };
+    resetCurrentShow();
 }
 
 // utility functions
@@ -188,26 +177,6 @@ const toBottom = () => {
         behavior: 'smooth'
     });
 }
-
-// show constants
-const existingShowList = ref([]);
-
-// for new show
-const newShow = ref({
-    id: undefined,
-    title: undefined,
-    episode: undefined,
-    status: undefined,
-    notes: undefined
-});
-
-// show details
-const currentShow = ref({
-    title: undefined,
-    episode: undefined,
-    status: undefined,
-    notes: undefined
-});
 
 // submission handlers
 const submitAddShow = async () => {
@@ -234,9 +203,7 @@ const submitAddShow = async () => {
     }
 }
 
-const submitUpdateShow = async () => {   // input validation
-    // Check if all fields in newShow are empty
-    //         newShow.id = currentShow.value.id; 
+const submitUpdateShow = async () => {  
     if (Object.values(newShow.value).every(val => val === '')) {;
         alert("Please fill in at least one field");
         return;
@@ -253,12 +220,7 @@ const submitUpdateShow = async () => {   // input validation
                 existingShowList.value = showsResult.data;
 
                 // reset newShow data
-                newShow.value = {
-                    title: undefined,
-                    episode: undefined,
-                    status: undefined,
-                    notes: undefined
-                };
+                resetNewShow();
             } else {
                 console.error("Error fetching shows:", showsResult.error);
                 alert("Error fetching shows: " + showsResult.error);
@@ -289,6 +251,42 @@ const submitDeleteShow = async (id) => {
     } else {
         console.error("Error deleting show:", result.error);
         alert("Error deleting show: " + result.error);
+    }
+}
+
+const increaseEpisode = async (showId) => {
+    console.log("showId inc ep", showId);
+    const result = await changeShowEpisode(showId, 1);
+    if (result.success) {
+        console.log("Show episode increased successfully", result.data);
+        const showsResult = await fetchAllShows();
+        if (showsResult.success) {
+            existingShowList.value = showsResult.data;
+        } else {
+            console.error("Error fetching shows:", showsResult.error);
+            alert("Error fetching shows: " + showsResult.error);
+        }
+    } else {
+        console.error("Error increasing show episode:", result.error);
+        alert("Error increasing show episode: " + result.error);
+    }
+}
+
+const decreaseEpisode = async (showId) => {
+    console.log("showId dec ep", showId);
+    const result = await changeShowEpisode(showId, -1);
+    if (result.success) {
+        console.log("Show episode increased successfully", result.data);
+        const showsResult = await fetchAllShows();
+        if (showsResult.success) {
+            existingShowList.value = showsResult.data;
+        } else {
+            console.error("Error fetching shows:", showsResult.error);
+            alert("Error fetching shows: " + showsResult.error);
+        }
+    } else {
+        console.error("Error increasing show episode:", result.error);
+        alert("Error increasing show episode: " + result.error);
     }
 }
 </script>
@@ -393,3 +391,4 @@ const submitDeleteShow = async (id) => {
 // filter button 
 // season field
 // add/minus button (auto send to back)
+// error handling

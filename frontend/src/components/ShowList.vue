@@ -1,7 +1,11 @@
 <template>
   <div class="existing-show-pane">
     <div v-for="show in shows" :key="show.id" class="show-card">
-      <h3 class="id-card">{{ show.episode }}</h3>
+        <div class="episode-container">
+            <button class="episode-button decrease" @click="$emit('decreaseEpisode', show.id)">-</button>
+            <h3 class="id-card">{{ show.episode }}</h3>
+            <button class="episode-button increase" @click="$emit('increaseEpisode', show.id)">+</button>
+        </div>
       <span><strong>Title:</strong><span class="id-card-text">{{ show.title }}</span></span>
       <span><strong>Status: </strong><span class="id-card-text">{{ show.status }}</span></span>
       <div class="button-group">
@@ -21,7 +25,7 @@ defineProps({
   }
 });
 
-defineEmits(['delete', 'update', 'view']);
+defineEmits(['delete', 'update', 'view', 'increaseEpisode', 'decreaseEpisode',]);
 </script>
 
 <style scoped>
@@ -148,5 +152,67 @@ defineEmits(['delete', 'update', 'view']);
         0 0 5px #7a00ff,
         0 0 20px #9900ff inset;
     transform: scale(1.05);
+}
+
+.episode-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.episode-button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.episode-button.decrease {
+    background: #000000;
+    color: #fff;
+    border: 2px solid #ff66c4;
+    box-shadow:
+        0 0 3px #ff66c4,
+        0 0 1px #f1c1df;
+    margin-right: 10px;
+}
+
+.episode-button.decrease:hover {
+    background: #161000;
+    box-shadow:
+        0 0 5px #ff668c,
+        0 0 1px #ff666e,
+        0 0 5px #ff0000,
+        0 0 10px #ff0000 inset;
+    transform: scale(1.1);
+}
+
+.episode-button.increase {
+    background: #000000;
+    color: #fff;
+    border: 2px solid #00ffe7;
+    box-shadow:
+        0 0 3px #00ffe7,
+        0 0 1px #bafff7;
+    margin-left: 10px;
+}
+
+.episode-button.increase:hover {
+    background: #001f1d;
+    box-shadow:
+        0 0 5px #00e0ff,
+        0 0 1px #00ccff,
+        0 0 5px #00baff,
+        0 0 10px #00eaff inset;
+    transform: scale(1.1);
 }
 </style>
