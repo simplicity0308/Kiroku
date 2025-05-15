@@ -1,7 +1,7 @@
 <template>
   <div class="existing-show-pane">
     <div v-for="show in shows" :key="show.id" class="show-card">
-      <h3 class="id-card">{{ show.id }}</h3>
+      <h3 class="id-card">{{ show.episode }}</h3>
       <span><strong>Title:</strong><span class="id-card-text">{{ show.title }}</span></span>
       <span><strong>Status: </strong><span class="id-card-text">{{ show.status }}</span></span>
       <div class="button-group">
@@ -27,14 +27,17 @@ defineEmits(['delete', 'update', 'view']);
 <style scoped>
 .existing-show-pane {
     justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
 .show-card {
     background-color: rgb(43, 40, 40);
     border-radius: 10px;
     padding: 10px;
-    margin: 10px;
+    /* margin: 10px; */
     width: auto;
-    box-shadow: 0 0 10px 3px rgb(19, 17, 19);
+    box-shadow: 0 0 18px 5px rgb(19, 17, 19);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -71,15 +74,16 @@ defineEmits(['delete', 'update', 'view']);
     justify-content: center;
     margin-top: 10px;
     gap: 10px;
+
 }
 .delete-button {
     background: #000000;
     color: #fff;
     font-family: 'Courier New', monospace;
-    font-size: 16px;
+    font-size: 12px;
     text-transform: uppercase;
     border: 2px solid #ff66c4;
-    padding: 10px 20px;
+    padding: 8px 15px;
     cursor: pointer;
     box-shadow:
         0 0 3px #ff66c4,
@@ -101,10 +105,10 @@ defineEmits(['delete', 'update', 'view']);
     background: #000000;
     color: #fff;
     font-family: 'Courier New', monospace;
-    font-size: 16px;
+    font-size: 12px;
     text-transform: uppercase;
     border: 2px solid #00ffe7;
-    padding: 10px 20px;
+    padding: 8px 15px;
     cursor: pointer;
     box-shadow:
         0 0 3px #00ffe7,
@@ -125,10 +129,10 @@ defineEmits(['delete', 'update', 'view']);
     background: #000000;
     color: #fff;
     font-family: 'Courier New', monospace;
-    font-size: 16px;
+    font-size: 12px;
     text-transform: uppercase;
     border: 2px solid #d580ff;
-    padding: 10px 20px;
+    padding: 8px 15px;
     cursor: pointer;
     box-shadow:
         0 0 3px #d580ff,
