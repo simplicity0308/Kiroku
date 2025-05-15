@@ -75,19 +75,19 @@ const toggleAddNewModal = () => {
     showAddNewModal.value = !showAddNewModal.value;
     // reset new show data
     newShow.value = {
-        title: '',
-        episode: '',
-        status: '',
-        notes: ''
+        title: undefined,
+        episode: undefined,
+        status: undefined,
+        notes: undefined
     };
 }
 const closeAddNewModal = () => {
     showAddNewModal.value = false;
     newShow.value = {
-        title: '',
-        episode: '',
-        status: '',
-        notes: ''
+        title: undefined,
+        episode: undefined,
+        status: undefined,
+        notes: undefined
     };
 }
 
@@ -121,10 +121,10 @@ const toggleUpdateModal = async (showId) => {
 const closeUpdateModal = () => {
     showUpdateModal.value = false;
     newShow.value = {
-        title: '',
-        episode: '',
-        status: '',
-        notes: ''
+        title: undefined,
+        episode: undefined,
+        status: undefined,
+        notes: undefined
     };
 }
 
@@ -143,10 +143,10 @@ const toggleViewModal = async (showId) => {
 const closeViewModal = () => {
     showViewModal.value = false;
     currentShow.value = {
-        title: '',
-        episode: '',
-        status: '',
-        notes: ''
+        title: undefined,
+        episode: undefined,
+        status: undefined,
+        notes: undefined
     };
 }
 
@@ -167,10 +167,10 @@ const toggleDeleteModal = async (showId) => {
 const closeDeleteModal = () => {
     showConfirmDeleteModal.value = false;
     currentShow.value = {
-        title: '',
-        episode: '',
-        status: '',
-        notes: ''
+        title: undefined,
+        episode: undefined,
+        status: undefined,
+        notes: undefined
     };
 }
 
@@ -194,19 +194,19 @@ const existingShowList = ref([]);
 
 // for new show
 const newShow = ref({
-    id: '',
-    title: '',
-    episode: '',
-    status: '',
-    notes: ''
+    id: undefined,
+    title: undefined,
+    episode: undefined,
+    status: undefined,
+    notes: undefined
 });
 
 // show details
 const currentShow = ref({
-    title: '',
-    episode: '',
-    status: '',
-    notes: ''
+    title: undefined,
+    episode: undefined,
+    status: undefined,
+    notes: undefined
 });
 
 // submission handlers
@@ -242,7 +242,7 @@ const submitUpdateShow = async () => {   // input validation
         return;
     } else {
 
-        const result = await updateShow(newShow.value, currentShow.value.id);
+        const result = await updateShow(newShow.value, currentShow.value.id, currentShow.value);
         if (result.success) {
             alert(`Show ${newShow.value.id} updated successfully`);
             console.log("Show updated successfully", result.data);
@@ -254,10 +254,10 @@ const submitUpdateShow = async () => {   // input validation
 
                 // reset newShow data
                 newShow.value = {
-                    title: '',
-                    episode: '',
-                    status: '',
-                    notes: ''
+                    title: undefined,
+                    episode: undefined,
+                    status: undefined,
+                    notes: undefined
                 };
             } else {
                 console.error("Error fetching shows:", showsResult.error);
@@ -391,3 +391,5 @@ const submitDeleteShow = async (id) => {
 </style>
 
 // filter button 
+// season field
+// add/minus button (auto send to back)
