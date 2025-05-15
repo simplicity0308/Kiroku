@@ -56,6 +56,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useToast } from 'vue-toast-notification';
 
 // components
 import ShowList from '../components/ShowList.vue';
@@ -78,6 +79,8 @@ const {
     resetNewShow,
     resetCurrentShow
 } = useShowsStates();
+
+const toast = useToast();
 
 // modal states
 const showAddNewModal = ref(false); 
@@ -102,7 +105,7 @@ onMounted(async () => {
         existingShowList.value = result.data;
     } else {
         console.error("Error fetching shows:", result.error);
-        alert("Error fetching shows: " + result.error);
+        toast.error("Error fetching shows: " + result.error);
     }
 });
 
@@ -118,7 +121,7 @@ const toggleUpdateModal = async (showId) => {
         showUpdateModal.value = !showUpdateModal.value;
     } else {
         console.error("Error fetching show:", result.error);
-        alert("Error fetching show: " + result.error);
+        toast.error("Error fetching show: " + result.error);
     }
 }
 
@@ -135,7 +138,7 @@ const toggleViewModal = async (showId) => {
         showViewModal.value = !showViewModal.value;
     } else {
         console.error("Error fetching show:", result.error);
-        alert("Error fetching show: " + result.error);
+        toast.error("Error fetching show: " + result.error);
     }
 
 }
@@ -154,7 +157,7 @@ const toggleDeleteModal = async (showId) => {
         showConfirmDeleteModal.value = !showConfirmDeleteModal.value;
     } else {
         console.error("Error fetching show:", result.error);
-        alert("Error fetching show: " + result.error);
+        toast.error("Error fetching show: " + result.error);
     }
 }
 
@@ -183,13 +186,13 @@ const submitAddShow = async () => {
     // input validation
     console.log("new show", newShow.value);
     if (!newShow.value.title) {
-        alert("Title is required");
+        toast.warning("Title is required");
         return;
     }
 
     const result = await addNewShow(newShow.value);
     if (result.success) {
-        alert(`Show ${newShow.value.title} added successfully`);
+        toast.success(`Show ${newShow.value.title} added successfully`);
         console.log("Show added successfully", result.data);
         toggleAddNewModal();
         
@@ -198,20 +201,20 @@ const submitAddShow = async () => {
             existingShowList.value = showsResult.data;
         } else {
             console.error("Error fetching shows:", showsResult.error);
-            alert("Error fetching shows: " + showsResult.error);
+            toast.error("Error fetching shows: " + showsResult.error);
         }
     }
 }
 
 const submitUpdateShow = async () => {  
     if (Object.values(newShow.value).every(val => val === '')) {;
-        alert("Please fill in at least one field");
+        toast.warning("Please fill in at least one field");
         return;
     } else {
 
         const result = await updateShow(newShow.value, currentShow.value.id, currentShow.value);
         if (result.success) {
-            alert(`Show ${newShow.value.id} updated successfully`);
+            toast.success(`Show updated successfully`);
             console.log("Show updated successfully", result.data);
             closeUpdateModal();
             
@@ -223,12 +226,12 @@ const submitUpdateShow = async () => {
                 resetNewShow();
             } else {
                 console.error("Error fetching shows:", showsResult.error);
-                alert("Error fetching shows: " + showsResult.error);
+                toast.error("Error fetching shows: " + showsResult.error);
             }
 
         } else {
             console.error("Error updating show:", result.error);
-            alert("Error updating show: " + result.error);
+            toast.error("Error updating show: " + result.error);
         }
     }
 }
@@ -237,7 +240,7 @@ const submitDeleteShow = async (id) => {
     console.log("deleting show", id);
     const result = await deleteShow(id);
     if (result.success) {
-        alert(`Show ${id} deleted successfully`);
+        toast.success(`Show deleted successfully`);
         console.log("Show deleted successfully", result.data);
         closeDeleteModal();
         
@@ -246,11 +249,11 @@ const submitDeleteShow = async (id) => {
             existingShowList.value = showsResult.data;
         } else {
             console.error("Error fetching shows:", showsResult.error);
-            alert("Error fetching shows: " + showsResult.error);
+            toast.error("Error fetching shows: " + showsResult.error);
         }
     } else {
         console.error("Error deleting show:", result.error);
-        alert("Error deleting show: " + result.error);
+        toast.error("Error deleting show: " + result.error);
     }
 }
 
@@ -259,34 +262,37 @@ const increaseEpisode = async (showId) => {
     const result = await changeShowEpisode(showId, 1);
     if (result.success) {
         console.log("Show episode increased successfully", result.data);
+        toast.info("Increment successful")
         const showsResult = await fetchAllShows();
         if (showsResult.success) {
             existingShowList.value = showsResult.data;
         } else {
             console.error("Error fetching shows:", showsResult.error);
-            alert("Error fetching shows: " + showsResult.error);
+            toast.error("Error fetching shows: " + showsResult.error);
         }
     } else {
         console.error("Error increasing show episode:", result.error);
-        alert("Error increasing show episode: " + result.error);
+        toast.error("Error increasing show episode: " + result.error);
     }
 }
+
 
 const decreaseEpisode = async (showId) => {
     console.log("showId dec ep", showId);
     const result = await changeShowEpisode(showId, -1);
     if (result.success) {
-        console.log("Show episode increased successfully", result.data);
+        console.log("Show episode decreased successfully", result.data);
+        toast.info("Decrement successful")
         const showsResult = await fetchAllShows();
         if (showsResult.success) {
             existingShowList.value = showsResult.data;
         } else {
             console.error("Error fetching shows:", showsResult.error);
-            alert("Error fetching shows: " + showsResult.error);
+            toast.error("Error fetching shows: " + showsResult.error);
         }
     } else {
         console.error("Error increasing show episode:", result.error);
-        alert("Error increasing show episode: " + result.error);
+        toast.error("Error increasing show episode: " + result.error);
     }
 }
 </script>
