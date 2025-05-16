@@ -156,3 +156,29 @@ export const getSingularShow = async (showId) => {
         return { success: false, error: error.message };
     }
 }
+
+export const filterShows = async (selected) => {
+    try {
+
+        if (!selected) {
+            return fetchAllShows();
+        }
+        const response = await fetch(`http://localhost:3000/shows/filter/?filterType=${selected}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log("Fetched shows successfully", data);
+            return { success: true, data };
+        } else {
+            console.error("Error fetching shows:", data);
+            return { success: false, error: data.message };
+        }
+    } catch (error) {
+        console.error("Error fetching shows:", error);
+        return { success: false, error: error.message };
+    }
+}

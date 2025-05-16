@@ -1,6 +1,7 @@
 const express = require('express');
 const {addNew, getAll, getById, updateById, deleteById} = require('../controllers/ShowOperations.controller.js');
 const { changeEpisode } = require('../controllers/ShowAttributes.controller.js');
+const { filter } = require('../controllers/ShowFilter.controller.js');
 const router = express.Router();
 
 // Route to add a new show
@@ -20,6 +21,9 @@ router.delete('/deleteById/:id', deleteById);
 
 // Route to increment the episode count
 router.put('/changeEpisode', changeEpisode); 
+
+// Route to filter shows by status
+router.get('/filter', filter);
 
 // Export the router
 module.exports = router;

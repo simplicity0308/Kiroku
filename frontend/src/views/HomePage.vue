@@ -6,8 +6,29 @@
             <h1>Kiroku 記録</h1>
         </div>
         <div class = "existing-show-container">
-            <h2 class="title-header">既存</h2>
+            <!-- <div class="filter-container">
+                <h2 class="title-header">既存</h2>
+                <div class="filter-wrapper">
+                    <label class="filter-label">
+                        <select v-model="selected" @change="filterShows" class="filter-dropdown">
+                            <option value="">All Shows</option>
+                            <option value="watching">Watching</option>
+                            <option value="completed">Completed</option>
+                            <option value="on%20hold">On Hold</option>
+                            <option value="dropped">Dropped</option>
+                            <option value="plan%20to%20watch">Plan to Watch</option>
+                        </select>
+                    </label>
+                </div>
+            </div> -->
 
+            <FilterDropdownModal
+                @filterShows="triggerFilterShows"
+                :filterSelection="selection"
+                :selected="selected"
+            />
+
+            
             <ShowList
                 :shows="existingShowList"
                 @delete="toggleDeleteModal"
@@ -64,7 +85,8 @@ import AddShowModal from '../components/AddShowModal.vue';
 import UpdateShowModal from '../components/UpdateShowModal.vue';
 import ViewShowModal from '../components/ViewShowModal.vue';
 import DeleteShowModal from '../components/DeleteShowModal.vue';
-import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow } from '../services/ShowService.js';
+import FilterDropdownModal from '../components/FilterDropdownModal.vue';
+import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow, filterShows } from '../services/ShowService.js';
 import { changeShowEpisode } from '../services/showAttributeService.js'; 
 
 // composables
@@ -81,6 +103,8 @@ const {
 } = useShowsStates();
 
 const toast = useToast();
+
+const selected = ref('');
 
 // modal states
 const showAddNewModal = ref(false); 
@@ -299,6 +323,27 @@ const decreaseEpisode = async (showId) => {
         toast.error(result.error);
     }
 }
+
+const triggerFilterShows = async (selected) => {
+    console.log("selected", selected);
+    const result = await filterShows(selected);
+    if(selected === '') {
+        const result = await fetchAllShows();
+        if (result.success) {
+            existingShowList.value = result.data;
+        } else {
+            console.error("Error fetching shows:", result.error);
+            toast.error("Error fetching shows: " + result.error);
+        }
+    }
+    if (result.success) {
+        existingShowList.value = result.data;
+        console.log("Filtered shows", result.data);
+    } else {
+        console.error("Error filtering shows:", result.error);
+        toast.error("Error filtering shows: " + result.error);
+    }
+}
 </script>
 
 <style scoped>
@@ -356,12 +401,12 @@ const decreaseEpisode = async (showId) => {
     max-width: 1200px;
 }
 .title-header {
-    text-align: center;
-    font-size: 28px;
-    color: white;
-    margin-top: 1px;
-    text-shadow: 8px 1px 2px black;
-    transform: skewX(-4deg);;
+  text-align: center;
+  font-size: 28px;
+  color: white;
+  margin: 0; /* Remove top/bottom margin */
+  text-shadow: 8px 1px 2px black;
+  transform: skewX(-4deg);
 }
 .action-pane {
     display: flex;
@@ -396,7 +441,11 @@ const decreaseEpisode = async (showId) => {
     justify-content: center;
     max-width: 1200px;
 }
+
+
 </style>
 
 // filter button 
-// new entry negative checkign
+// search by name
+// archive funnction (throw to other collection)
+// if filter, page need refresh, but other function will also refresh (revert filter?)
