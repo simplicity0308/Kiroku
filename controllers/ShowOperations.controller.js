@@ -116,8 +116,6 @@ const deleteById = async (req, res) => {
     }
 }
 
-
-
 // Helper functions 
 
 // Validation function
@@ -140,7 +138,9 @@ const validateId = (id) => {
         return { success: true };
     }
 };
-// import txt file to json
+
+
+
 
 // Export
 module.exports = {
@@ -148,5 +148,5 @@ module.exports = {
     getAll,
     getById,
     updateById,
-    deleteById
+    deleteById,
 };

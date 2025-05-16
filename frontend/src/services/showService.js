@@ -1,20 +1,34 @@
 export const addNewShow = async (newShow) => {
     try{
-        const response = await fetch(`http://localhost:3000/shows/addNew`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newShow)
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            console.log("Show added successfully", data);
-            return {success: true, data};
+        if (newShow.episode < 0) {
+            console.error("Episode count cannot be negative");
+            return {
+                success: false,
+                error: "Episode count cannot be negative"
+            }
+        } else if (newShow.season < 0) {
+            console.error("Season number cannot be negative");
+            return {
+                success: false,
+                error: "Season number cannot be negative"
+            }
         } else {
-            console.error("Error adding show:", data);
-            return {success: false, error: data.message};
+            const response = await fetch(`http://localhost:3000/shows/addNew`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newShow)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log("Show added successfully", data);
+                return {success: true, data};
+            } else {
+                console.error("Error adding show:", data);
+                return {success: false, error: data.message};
+            }
         }
     } catch (error) {
         console.error("Error adding show:", error);

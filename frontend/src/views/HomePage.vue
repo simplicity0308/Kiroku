@@ -204,6 +204,9 @@ const submitAddShow = async () => {
             console.error("Error fetching shows:", showsResult.error);
             toast.error("Error fetching shows: " + showsResult.error);
         }
+    } else {
+        console.error("Error adding show:", result.error);
+        toast.error(result.error);
     }
 }
 
@@ -396,5 +399,4 @@ const decreaseEpisode = async (showId) => {
 </style>
 
 // filter button 
-// season field
 // new entry negative checkign
