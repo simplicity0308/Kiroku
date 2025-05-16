@@ -1,4 +1,5 @@
 <template>
+    <title>Home</title>
     <div class="animated-background">
         <div class="wave wave-1"></div>
         <div class="wave wave-2"></div>
@@ -16,10 +17,8 @@
             <FilterHeaderModal
                 @filterShows="triggerFilterShows"
                 @submitSearch="triggerSearch"
-                :selected="selected"
             />
 
-            
             <ShowList
                 :shows="existingShowList"
                 @delete="toggleDeleteModal"
@@ -95,8 +94,6 @@ const {
 
 const toast = useToast();
 
-const selected = ref('');
-
 // modal states
 const showAddNewModal = ref(false); 
 const showUpdateModal = ref(false);
@@ -156,8 +153,8 @@ const toggleViewModal = async (showId) => {
         console.error("Error fetching show:", result.error);
         toast.error("Error fetching show: " + result.error);
     }
-
 }
+
 const closeViewModal = () => {
     showViewModal.value = false;
     resetCurrentShow();
@@ -224,7 +221,6 @@ const submitAddShow = async () => {
         toast.error(result.error);
     }
 }
-
 const submitUpdateShow = async () => {  
     if (Object.values(newShow.value).every(val => val === '')) {;
         toast.warning("Please fill in at least one field");
@@ -254,7 +250,6 @@ const submitUpdateShow = async () => {
         }
     }
 }
-
 const submitDeleteShow = async (id) => {
     console.log("deleting show", id);
     const result = await deleteShow(id);
@@ -275,7 +270,6 @@ const submitDeleteShow = async (id) => {
         toast.error("Error deleting show: " + result.error);
     }
 }
-
 const increaseEpisode = async (showId) => {
     console.log("showId inc ep", showId);
     const result = await changeShowEpisode(showId, 1);
@@ -504,6 +498,7 @@ const triggerSearch = async (searchTerm) => {
 
 </style>
 
-// search by name
 // archive funnction (throw to other collection)
-// if filter, page need refresh, but other function will also refresh (revert filter?)
+// view pane call external api to retrieve image (prompt image when adding new)
+// store image in db
+// user auth (bcrypt)

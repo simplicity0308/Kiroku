@@ -148,7 +148,7 @@ const showData = computed({
   margin-bottom: 15px;
 }
 .form-group label {
-  width: 120px; /* Fixed width for alignment */
+  width: 120px;  
   margin-right: 10px;
   color: #fff;
   font-weight: 500;

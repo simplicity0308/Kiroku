@@ -3,7 +3,7 @@
     <div class="search-container">
       <input v-model="localSearchTerm" type="text" placeholder="Search by title..." class="filter-search" @input="updateSearch"/>
     </div>
-
+    <!-- keyup.enter  -->
     <h2 class="title-header">既存</h2>
       <div class="filter-wrapper">
         <label class="filter-label">
@@ -62,11 +62,11 @@ const updateSearch = () => {
 <style scoped>
 .title-header {
   grid-column: 2;
-  justify-self: center; /* Center the header */
+  justify-self: center; 
   text-align: center;
   font-size: 28px;
   color: white;
-  margin: 0 20px; /* Add some margin on sides */
+  margin: 0 20px; 
   text-shadow: 8px 1px 2px rgb(48, 39, 39);
   transform: skewX(-8deg);
   z-index: 1;
@@ -112,12 +112,12 @@ const updateSearch = () => {
 }
 
 .filter-label {
-  flex: 0 0 auto; /* Don't grow or shrink (fix typo from "filter: 0 0 auto") */
+  flex: 0 0 auto;  
   position: relative;
 }
 .filter-wrapper {
   grid-column: 3;
-  justify-self: end; /* Align to the right */
+  justify-self: end;  
   display: flex;
   align-items: center;
 }
@@ -144,7 +144,7 @@ const updateSearch = () => {
 }
 .search-container {
   grid-column: 1;
-  justify-self: start; /* Align to the left */
+  justify-self: start;  
   max-width: 180px;
   position: relative;
   display: flex;
@@ -152,12 +152,12 @@ const updateSearch = () => {
 
 .filter-search {
     background: #000000;
-    color: white; /* Pink text to contrast with dropdown */
+    color: white;  
     font-family: 'Courier New', monospace;
     font-size: 14px;
     width: 180px;
-    height: 17px; /* Match dropdown height */
-    border: 2px solid #ff66c4; /* Pink border to contrast with dropdown */
+    height: 17px;  
+    border: 2px solid #ff66c4;  
     border-radius: 5px;
     padding: 8px 15px 8px 18px;
     box-shadow:
@@ -180,12 +180,12 @@ const updateSearch = () => {
         0 0 2px #ff33b8,
         0 0 8px #ff00aa,
         0 0 10px #ff66c4 inset;
-    width: 220px; /* Expand slightly when focused */
+    width: 220px;  
 }
 
 .search-icon {
   position: absolute;
-  left: 10px; /* Position relative to search container */
+  left: 10px;  
   color: #ff66c4;
   font-size: 14px;
   pointer-events: none;

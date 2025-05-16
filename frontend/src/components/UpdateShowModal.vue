@@ -214,7 +214,6 @@ const showData = computed({
         0 0 20px #ff0000 inset;
     transform: scale(1.05);
 }
-
 .update-button {
     background: #000000;
     color: #fff;
@@ -331,7 +330,6 @@ const showData = computed({
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    
 }
 .modal-content {
     background: rgba(30, 30, 30, 0.9);
@@ -343,7 +341,6 @@ const showData = computed({
     flex-direction: column;
         box-shadow: 0 0 10px 4px rgb(176, 2, 219);
 }
-
 .modal-actions {
     display: flex;
     justify-content: center;
@@ -372,7 +369,6 @@ const showData = computed({
   flex-direction: column;
   justify-content: space-between;
 }
-
 .modal-actions {
   display: flex;
   justify-content: center;
@@ -386,13 +382,12 @@ const showData = computed({
 }
 
 .form-group label {
-  width: 120px; /* Fixed width for alignment */
+  width: 120px; 
   margin-right: 10px;
   color: #fff;
   font-weight: 500;
   text-align: center;
 }
-
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -405,7 +400,6 @@ const showData = computed({
   font-size: 14px;
   min-width: 0;
 }
-
 .form-group textarea {
     height: 100px;
     resize: horizontal;
@@ -416,7 +410,6 @@ const showData = computed({
   align-items: center;
   width: 100%;
 }
-
 .view-content {
     display: flex;
     flex-direction: column;
@@ -444,7 +437,6 @@ const showData = computed({
   width: 100% ;
   border-style: opaque; 
   box-shadow: 0 0 10px 4px rgb(66, 66, 66);
-  
 }
 .show-card-view p {
   margin: 5px 0;

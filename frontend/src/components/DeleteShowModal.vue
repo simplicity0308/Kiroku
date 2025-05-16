@@ -31,7 +31,6 @@ const emit = defineEmits(['confirm', 'close']);
 </script>
 
 <style scoped>
-/* Only keeping the CSS classes that are used in the template */
 .title-header {
     text-align: center;
     font-size: 28px;

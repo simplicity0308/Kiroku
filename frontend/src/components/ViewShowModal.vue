@@ -64,7 +64,6 @@ const emit = defineEmits(['close']);
     flex-direction: column;
         box-shadow: 0 0 10px 4px rgb(176, 2, 219);
 }
-
 .modal-actions {
     display: flex;
     justify-content: center;
@@ -103,7 +102,6 @@ const emit = defineEmits(['close']);
   width: 100% ;
   border-style: opaque; 
   box-shadow: 0 0 10px 4px rgb(66, 66, 66);
-  
 }
 .show-card-view p {
   margin: 5px 0;
