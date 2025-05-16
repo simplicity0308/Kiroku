@@ -24,6 +24,16 @@
             </div>
 
             <div class="form-group">
+                <label for="episode">Season:</label>
+                <input 
+                    type="number" 
+                    id="season" 
+                    v-model="showData.season" 
+                    placeholder="Season number"
+                />
+            </div>
+
+            <div class="form-group">
                 <label for="status">Status:</label>
                 <select v-model="showData.status">
                     <option disabled value="">Select status</option>

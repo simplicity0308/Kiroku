@@ -116,8 +116,9 @@ const toggleUpdateModal = async (showId) => {
     if (result.success) {
         // currentShow.value = result.data;
         console.log(result.data);
-        console.log("toggleupdate new show", result.value);
+        console.log("toggleupdate get cur show", result.data);
         currentShow.value = result.data;
+        console.log("toggleupdate cur show", currentShow.value);
         showUpdateModal.value = !showUpdateModal.value;
     } else {
         console.error("Error fetching show:", result.error);
@@ -231,7 +232,7 @@ const submitUpdateShow = async () => {
 
         } else {
             console.error("Error updating show:", result.error);
-            toast.error("Error updating show: " + result.error);
+            toast.error(result.error);
         }
     }
 }
@@ -272,7 +273,7 @@ const increaseEpisode = async (showId) => {
         }
     } else {
         console.error("Error increasing show episode:", result.error);
-        toast.error("Error increasing show episode: " + result.error);
+        toast.error(result.error);
     }
 }
 
@@ -292,7 +293,7 @@ const decreaseEpisode = async (showId) => {
         }
     } else {
         console.error("Error increasing show episode:", result.error);
-        toast.error("Error increasing show episode: " + result.error);
+        toast.error(result.error);
     }
 }
 </script>
@@ -396,5 +397,4 @@ const decreaseEpisode = async (showId) => {
 
 // filter button 
 // season field
-// add/minus button (auto send to back)
-// error handling
+// new entry negative checkign

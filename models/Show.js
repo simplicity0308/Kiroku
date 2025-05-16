@@ -15,6 +15,7 @@ const showSchema = new mongoose.Schema({
   episode: {
     type: Number,
     default: 0,
+    min: [0, 'Episode count cannot be negative']
   },
   status: {
     type: String,
@@ -28,6 +29,11 @@ const showSchema = new mongoose.Schema({
   addDate: {
     type: Date,
     default: Date.now,
+  },
+  season: {
+    type: Number,
+    default: 0,
+    min: [0, 'Season number must not be negative']
   }
 });
 

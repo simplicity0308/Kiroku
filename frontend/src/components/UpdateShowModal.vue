@@ -10,6 +10,8 @@
                             <p>Title: {{ show.title }}</p>
                             <p>Status: {{ show.status }}</p>
                             <p>Episode: {{ show.episode }}</p>
+                            <!-- check if season is truthy (not all shows have season if they only have one season) -->
+                            <p>Season: {{ show.season ? show.season : '-' }}</p>
                             <p>Notes: {{ show.notes }}</p>
                         </div>
                     </div>
@@ -36,6 +38,17 @@
                                     id="episode" 
                                     v-model="newShow.episode" 
                                     placeholder="Enter new episode"
+                                />
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label for="season">Season:</label>
+                                <input 
+                                    type="number" 
+                                    id="season" 
+                                    v-model="newShow.season" 
+                                    placeholder="Enter new season"
                                 />
                             </div>
 

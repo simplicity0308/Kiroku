@@ -69,44 +69,55 @@ export const deleteShow = async (showId) =>{
 
 export const updateShow = async (newShow, id, currentShow) => {
     try{
-        // ... is spread operator, it creates a shallow copy of the object
-        const updatedShow = { ...newShow }; 
-        console.log("received show: ", updatedShow);
-        updatedShow.id = id;
+        console.log("new show episode", newShow.episode);
+        console.log("new show", newShow, id);
+        if (newShow.episode >= 0 || newShow.episode === undefined) {
+            // ... is spread operator, it creates a shallow copy of the object
+            const updatedShow = { ...newShow }; 
+            console.log("received show: ", updatedShow);
+            updatedShow.id = id;
 
-        // if any fields are empty, set them to the values of the current show
-        if (updatedShow.title === '') {
-            updatedShow.title = currentShow.title;
-        } else if (updatedShow.episode === '') {
-            updatedShow.episode = currentShow.episode;
-        } else if (updatedShow.status === '') {
-            updatedShow.status = currentShow.status;
-        } else if (updatedShow.notes === '') {
-            updatedShow.notes = currentShow.notes;
-        }
-        console.log("updatedShow", updatedShow);
+            // if any fields are empty, set them to the values of the current show
+            if (updatedShow.title === '') {
+                updatedShow.title = currentShow.title;
+            } else if (updatedShow.episode === '') {
+                updatedShow.episode = currentShow.episode;
+            } else if (updatedShow.status === '') {
+                updatedShow.status = currentShow.status;
+            } else if (updatedShow.notes === '') {
+                updatedShow.notes = currentShow.notes;
+            }
+            console.log("updatedShow", updatedShow);
 
-        console.log("sending update req")
-        const response = await fetch(`http://localhost:3000/shows/updateById`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedShow)
-        });
+            console.log("sending update req")
+            const response = await fetch(`http://localhost:3000/shows/updateById`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedShow)
+            });
 
-        const data = await response.json();
-        if (response.ok) {
-            console.log("Show updated successfully", data);
-            return {success: true, data};
+            const data = await response.json();
+            if (response.ok) {
+                console.log("Show updated successfully", data);
+                return {success: true, data};
+            } else {
+                console.error("Error updating show:", data);
+                return {success: false, error: data.message};
+            }
         } else {
-            console.error("Error updating show:", data);
-            return {success: false, error: data.message};
+            console.error("Episode count cannot be negative");
+            return {
+                success: false,
+                error: "Episode count cannot be negative"
+            }
         }
     } catch (error) {
         console.error("Error updating show:", error);
         return {success: false, error: error.message};
     }
+    
 
 }
 

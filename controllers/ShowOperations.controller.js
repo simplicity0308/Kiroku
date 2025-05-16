@@ -3,7 +3,7 @@ const showModel = require('../models/Show.js');
 // POST /addNew
 const addNew = async (req, res) => {
     // Parse the request body
-    let { title, status, episode, notes  } = req.body;
+    let { title, status, episode, season, notes  } = req.body;
 
     // Validation
     const validation = validate(title);
@@ -20,7 +20,7 @@ const addNew = async (req, res) => {
             let newShowID = lastShow ? lastShow.id + 1 : 1;  // If no shows exist yet, start with ID 1
             console.log(`New show ID: ${newShowID}`);
 
-            const newShow = new showModel({title, id : newShowID, status, episode, notes });
+            const newShow = new showModel({title, id : newShowID, status, episode, season, notes });
             console.log(`New show created: ${newShow}`);
             
             const savedShow = await newShow.save(); // Save to DB
@@ -65,7 +65,7 @@ const getById = async (req, res) => {
 // PUT /updateById
 const updateById = async (req, res) => {
     // Parse the request body
-    let {title, id, status, episode, notes} = req.body;
+    let {title, id, status, episode, season,notes} = req.body;
 
     // Validation
     const idValidation = validateId(id);
@@ -75,7 +75,7 @@ const updateById = async (req, res) => {
         try{
             const updatedShow = await showModel.findOneAndUpdate(
                 { id: id }, // Find show by ID
-                { title, status, episode, notes }, // Update fields
+                { title, status, episode, notes, season }, // Update fields
                 { new: true , // Return the updated document
                   runValidators: true  // Validate the update
                 }

@@ -7,6 +7,7 @@ export function useShowsStates () {
         id: undefined,
         title: undefined,
         episode: undefined,
+        season: undefined,
         status: undefined,
         notes: undefined
     });
@@ -15,6 +16,7 @@ export function useShowsStates () {
         id: undefined,
         title: undefined,
         episode: undefined,
+        season: undefined,
         status: undefined,
         notes: undefined
     });
@@ -24,6 +26,7 @@ export function useShowsStates () {
             id: undefined,
             title: undefined,
             episode: undefined,
+            season: undefined,
             status: undefined,
             notes: undefined
         };
@@ -33,6 +36,7 @@ export function useShowsStates () {
         currentShow.value = {
             title: undefined,
             episode: undefined,
+            season: undefined,
             status: undefined,
             notes: undefined
         };

@@ -5,8 +5,9 @@
             <div class="view-pane-container">
                 <div class="view-content">
                     <div class="show-card-view">
-                    <p><strong>Status: </strong> <span class="id-card-text">{{ show.status }}</span></p>
-                    <p><strong>Episode: </strong> <span class="id-card-text">{{ show.episode }}</span></p>
+                    <p><strong>Status: </strong> <span class="id-card-text">{{ show.status }} </span></p>
+                    <p><strong>Episode: </strong> <span class="id-card-text">{{ show.episode }} </span></p>
+                    <p><strong>Season: </strong> <span class="id-card-text"> {{ show.season ? show.season : '-' }} </span></p>
                     <p><strong>Notes: </strong> <span class="id-card-text">{{ show.notes }}</span></p>
                     </div>
                     <div class="modal-actions">

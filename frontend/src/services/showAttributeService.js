@@ -17,7 +17,7 @@ export const changeShowEpisode = async (showId, episode) => {
             return { success: true, data };
         } else {
             console.error("Error updating show episode:", data);
-            return { success: false, error: data.message };
+            return { success: false, error: data.error };
         }
     } catch (error) {
         console.error("Error updating show episode:", error);
