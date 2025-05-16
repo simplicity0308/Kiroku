@@ -1,4 +1,10 @@
 <template>
+    <div class="animated-background">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+    </div>
+    
     <div class = container>
         <button @click="backToTop" class="back-to-top floating-button">&#8679;</button>
         <button @click="toBottom" class="to-bottom floating-button">&#8681;</button>
@@ -6,21 +12,6 @@
             <h1>Kiroku 記録</h1>
         </div>
         <div class = "existing-show-container">
-            <!-- <div class="filter-container">
-                <h2 class="title-header">既存</h2>
-                <div class="filter-wrapper">
-                    <label class="filter-label">
-                        <select v-model="selected" @change="filterShows" class="filter-dropdown">
-                            <option value="">All Shows</option>
-                            <option value="watching">Watching</option>
-                            <option value="completed">Completed</option>
-                            <option value="on%20hold">On Hold</option>
-                            <option value="dropped">Dropped</option>
-                            <option value="plan%20to%20watch">Plan to Watch</option>
-                        </select>
-                    </label>
-                </div>
-            </div> -->
 
             <FilterDropdownModal
                 @filterShows="triggerFilterShows"
@@ -349,6 +340,9 @@ const triggerFilterShows = async (selected) => {
 <style scoped>
 .container{
     max-width: 1200px;
+    position: relative;
+    margin: 0 auto;
+    z-index: 1;
 }
 .floating-button {
     position: fixed;
@@ -442,10 +436,62 @@ const triggerFilterShows = async (selected) => {
     max-width: 1200px;
 }
 
+/* bg */
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Use viewport height instead */
+  overflow: hidden;
+  z-index: -1;
+  background: #070707;
+}
+
+.wave {
+  position: absolute;
+  width: 300%; /* Make it wider */
+  height: 100%;
+  bottom: -50%; /* Position lower */
+  left: -100%; /* Start outside viewport */
+  background: rgba(206, 34, 34, 0.4); /* Slightly more visible */
+  border-radius: 48%;
+}
+
+.wave-1 {
+  animation: wave 35s infinite linear;
+  opacity: 0.2;
+  transform: translateZ(0) scale(0.7);
+}
+
+.wave-2 {
+  animation: wave 25s infinite linear;
+  animation-delay: -5s;
+  opacity: 0.1;
+  transform: translateZ(0) scale(0.85);
+}
+
+.wave-3 {
+  animation: wave 20s infinite linear;
+  animation-delay: -2s;
+  opacity: 0.15;
+  transform: translateZ(0);
+}
+
+@keyframes wave {
+  0% {
+    transform: translate(-50%, 0) rotateZ(0deg);
+  }
+  50% {
+    transform: translate(-30%, -2%) rotateZ(180deg);
+  }
+  100% {
+    transform: translate(-50%, 0) rotateZ(360deg);
+  }
+}
 
 </style>
 
-// filter button 
 // search by name
 // archive funnction (throw to other collection)
 // if filter, page need refresh, but other function will also refresh (revert filter?)
