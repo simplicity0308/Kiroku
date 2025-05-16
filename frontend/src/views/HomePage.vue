@@ -377,7 +377,7 @@ const triggerFilterShows = async (selected) => {
     color: white;
     margin-top: 20px;
     margin-bottom: 20px;
-    text-shadow: 8px 1px 2px black;
+    text-shadow: 8px 1px 2px rgb(40, 35, 65);
 }
 .header h1 {
     display: inline-block;
@@ -391,16 +391,16 @@ const triggerFilterShows = async (selected) => {
     border-style: solid;
     padding: 20px;
     border-radius: 30px;
-    box-shadow: 0 0 10px 4px purple;
+    box-shadow: 0 0 25px 5px purple;
     max-width: 1200px;
 }
 .title-header {
-  text-align: center;
-  font-size: 28px;
-  color: white;
-  margin: 0; /* Remove top/bottom margin */
-  text-shadow: 8px 1px 2px black;
-  transform: skewX(-4deg);
+    text-align: center;
+    font-size: 28px;
+    color: white;
+    margin: 0; 
+    text-shadow: 8px 1px 2px black;
+    transform: skewX(-5deg);
 }
 .action-pane {
     display: flex;
@@ -438,44 +438,44 @@ const triggerFilterShows = async (selected) => {
 
 /* bg */
 .animated-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh; /* Use viewport height instead */
-  overflow: hidden;
-  z-index: -1;
-  background: #070707;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Use viewport height instead */
+    overflow: hidden;
+    z-index: -1;
+    background: #070707;
 }
 
 .wave {
-  position: absolute;
-  width: 300%; /* Make it wider */
-  height: 100%;
-  bottom: -50%; /* Position lower */
-  left: -100%; /* Start outside viewport */
-  background: rgba(206, 34, 34, 0.4); /* Slightly more visible */
-  border-radius: 48%;
+    position: absolute;
+    width: 300%; 
+    height: 100%;
+    bottom: -50%; /* Position lower */
+    left: -100%; /* Start outside viewport */
+    background: rgba(206, 34, 34, 0.4); 
+    border-radius: 48%;
 }
 
 .wave-1 {
-  animation: wave 35s infinite linear;
-  opacity: 0.2;
-  transform: translateZ(0) scale(0.7);
+    animation: wave 35s infinite linear;
+    opacity: 0.2;
+    transform: translateZ(0) scale(0.7);
 }
 
 .wave-2 {
-  animation: wave 25s infinite linear;
-  animation-delay: -5s;
-  opacity: 0.1;
-  transform: translateZ(0) scale(0.85);
+    animation: wave 25s infinite linear;
+    animation-delay: -5s;
+    opacity: 0.1;
+    transform: translateZ(0) scale(0.85);
 }
 
 .wave-3 {
-  animation: wave 20s infinite linear;
-  animation-delay: -2s;
-  opacity: 0.15;
-  transform: translateZ(0);
+    animation: wave 20s infinite linear;
+    animation-delay: -2s;
+    opacity: 0.15;
+    transform: translateZ(0);
 }
 
 @keyframes wave {

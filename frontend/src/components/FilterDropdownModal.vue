@@ -47,8 +47,8 @@ const updateFilter = () => {
   font-size: 28px;
   color: white;
   margin: 0; /* Remove top/bottom margin */
-  text-shadow: 8px 1px 2px black;
-  transform: skewX(-4deg);
+  text-shadow: 8px 1px 2px rgb(48, 39, 39);
+  transform: skewX(-8deg);
 }
 .filter-container {
   position: relative;

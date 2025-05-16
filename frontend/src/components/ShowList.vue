@@ -41,7 +41,8 @@ defineEmits(['delete', 'update', 'view', 'increaseEpisode', 'decreaseEpisode',])
     padding: 10px;
     /* margin: 10px; */
     width: auto;
-    box-shadow: 0 0 18px 5px rgb(19, 17, 19);
+    /* box-shadow: 0 0 100px 10px rgb(19, 17, 19); */
+    box-shadow: 0 0px 4px rgba(221, 122, 221, 0.8);
     flex: 1;
     display: flex;
     flex-direction: column;
