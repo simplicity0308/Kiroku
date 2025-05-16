@@ -13,9 +13,9 @@
         </div>
         <div class = "existing-show-container">
 
-            <FilterDropdownModal
+            <FilterHeaderModal
                 @filterShows="triggerFilterShows"
-                :filterSelection="selection"
+                @submitSearch="triggerSearch"
                 :selected="selected"
             />
 
@@ -76,8 +76,8 @@ import AddShowModal from '../components/AddShowModal.vue';
 import UpdateShowModal from '../components/UpdateShowModal.vue';
 import ViewShowModal from '../components/ViewShowModal.vue';
 import DeleteShowModal from '../components/DeleteShowModal.vue';
-import FilterDropdownModal from '../components/FilterDropdownModal.vue';
-import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow, filterShows } from '../services/ShowService.js';
+import FilterHeaderModal from '../components/FilterHeaderModal.vue';
+import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow, filterShows, searchShows } from '../services/ShowService.js';
 import { changeShowEpisode } from '../services/showAttributeService.js'; 
 
 // composables
@@ -333,6 +333,18 @@ const triggerFilterShows = async (selected) => {
     } else {
         console.error("Error filtering shows:", result.error);
         toast.error("Error filtering shows: " + result.error);
+    }
+}
+
+const triggerSearch = async (searchTerm) => {
+    console.log("searchTerm", searchTerm);
+    const result = await searchShows(searchTerm);
+    if (result.success) {
+        existingShowList.value = result.data;
+        console.log("Filtered shows", result.data);
+    } else {
+        console.error("Error filtering shows:", result.error);
+        toast.warning(result.error);
     }
 }
 </script>
