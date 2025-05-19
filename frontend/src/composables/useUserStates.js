@@ -7,7 +7,7 @@ export function useUserStates() {
         isLoggedIn: false
     });
 
-    const resetCurrentUser = () => {
+    const resetCurrentUserState = () => {
         currentUser.value = {
             id: undefined,
             username: undefined,
@@ -19,6 +19,6 @@ export function useUserStates() {
         currentUser, 
         
         // user logout
-        resetCurrentUser
+        resetCurrentUserState
     }
 }

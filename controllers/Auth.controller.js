@@ -8,12 +8,14 @@ const login = async (req, res) => {
     try {
         const user = await userModel.findOne({ username });
         if (!user) {
-            return res.status(401).json({ message: 'Invalid username or password' });
+            console.log(`Back: User ${username} does not exist`);
+            return res.status(401).json({ message: 'User does not exist' });
         } else {
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(401).json({ message: 'Invalid username or password' });
             } else {
+                console.log(`Back: User ${username} logged in successfully`);
                 return res.status(200).json({ message: 'Login successful', userId: user.userId });
             }
         }
@@ -28,4 +30,8 @@ const login = async (req, res) => {
 
 module.exports = {
     login
-}
+}   
+
+
+
+

@@ -127,9 +127,6 @@ const toggleUpdateModal = async (showId) => {
 
     const result = await getSingularShow(showId); 
     if (result.success) {
-        // currentShow.value = result.data;
-        console.log(result.data);
-        console.log("toggleupdate get cur show", result.data);
         currentShow.value = result.data;
         console.log("toggleupdate cur show", currentShow.value);
         showUpdateModal.value = !showUpdateModal.value;

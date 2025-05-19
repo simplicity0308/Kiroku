@@ -9,6 +9,11 @@ import { RouterView } from 'vue-router'
 </template>
 
 <style scoped>
+.app{
+  width: 100%;
+  margin: 0
+}
+
 </style>
 
 
