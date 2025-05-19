@@ -81,7 +81,21 @@ const submitloginUser = async (currentUser) => {
 }
 
 const submitRegisterUser = async (currentUser) => {
+    const result = await registerUser(currentUser.username, currentUser.password);
+    if (result.success) {
+        toast.success('Registration successful!')
+        toast.default('Please login to continue...');
 
+        resetCurrentUserState();
+        setTimeout(() => {
+            toast.clear();
+            window.location.href = '/login';
+        }, 1000);
+    } else {
+        console.error('Registration failed:', result.error);
+        toast.error('Registration failed: ' + result.error);
+        resetCurrentUserState();
+    }
 }
 </script>
     
@@ -116,7 +130,7 @@ const submitRegisterUser = async (currentUser) => {
 }
 
 .login-form {
-    width: 600px; /* Fixed width for desktop */
+    width: 600px; 
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
