@@ -26,8 +26,8 @@ Create a `.env` file in the project root:
 
 ```bash
 # Create the .env file
-echo "NODE_ENV=development
-MONGO_URI=your_mongodb_atlas_connection_string" > .env
+NODE_ENV=development
+MONGO_URI=your_mongodb_atlas_connection_string" 
 ```
 
  `your_mongodb_atlas_connection_string` is removed for privacy.
