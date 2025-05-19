@@ -37,6 +37,7 @@
     <AddShowModal
         v-model="showAddNewModal"
         :show="newShow"
+        :blockInvalidChar="blockInvalidChar"
         @close="closeAddNewModal"
         @submit="submitAddShow"
         @cancel="closeAddNewModal"
@@ -45,7 +46,7 @@
     <UpdateShowModal
         v-model="showUpdateModal"
         :show="currentShow"
-        :newShow="newShow"
+        :blockInvalidChar="blockInvalidChar"
         @close="closeUpdateModal"
         @update="submitUpdateShow"
         @cancel="closeUpdateModal"
@@ -222,12 +223,12 @@ const submitAddShow = async () => {
     }
 }
 const submitUpdateShow = async () => {  
-    if (Object.values(newShow.value).every(val => val === '')) {;
+    if (Object.values(currentShow.value).every(val => val === '')) {;
         toast.warning("Please fill in at least one field");
         return;
     } else {
 
-        const result = await updateShow(newShow.value, currentShow.value.id, currentShow.value);
+        const result = await updateShow(currentShow.value, currentShow.value.id, currentShow.value);
         if (result.success) {
             toast.success(`Show updated successfully`);
             console.log("Show updated successfully", result.data);
@@ -339,6 +340,16 @@ const triggerSearch = async (searchTerm) => {
     } else {
         console.error("Error filtering shows:", result.error);
         toast.warning(result.error);
+    }
+}
+
+
+
+// generic function for number validation
+function blockInvalidChar(event) {
+    const invalidChars = ["e", "E", "+", "-", " "];
+    if (invalidChars.includes(event.key)) {
+        event.preventDefault();
     }
 }
 </script>
@@ -501,4 +512,4 @@ const triggerSearch = async (searchTerm) => {
 // archive funnction (throw to other collection)
 // view pane call external api to retrieve image (prompt image when adding new)
 // store image in db
-// user auth (bcrypt)
+// user auth (bcrypt) -> validation do in service

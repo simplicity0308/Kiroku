@@ -20,6 +20,7 @@
                     id="episode" 
                     v-model="showData.episode" 
                     placeholder="Enter show episode"
+                    @keydown="blockInvalidChar"
                 />
             </div>
 
@@ -30,6 +31,7 @@
                     id="season" 
                     v-model="showData.season" 
                     placeholder="Season number"
+                    @keydown="blockInvalidChar"
                 />
             </div>
 
@@ -72,6 +74,10 @@ const props = defineProps({
     },
     show: {
         type: Object,
+        required: true
+    },
+    blockInvalidChar: {
+        type: Function,
         required: true
     }
 });

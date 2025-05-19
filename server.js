@@ -24,10 +24,12 @@ app.use(cors({
 // Routes
 const showRoutes = require('./routes/Show.routes.js');
 const adminRoutes = require('./routes/Admin.routes.js');
+const userRoutes = require('./routes/User.routes.js');
 
 // Use routes
 app.use('/shows', showRoutes);
 app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 
 // Listen on port 3000
 app.listen(port, () => {

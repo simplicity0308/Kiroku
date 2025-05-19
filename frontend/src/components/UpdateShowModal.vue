@@ -2,31 +2,30 @@
     <div v-if="modelValue" class="modal-overlay" @click.self="$emit('close')">
         <div class ="modal-content">
             <div class="title-header">Update Show</div>
-            <div class="prompt-text">Please enter show details to update</div>
+            <div class="prompt-text">Please update show details to update</div>
                 <div class="update-panes-container">
-                    <div class="update-show-left">
+                    <!-- <div class="update-show-left">
                         <div class="prompt-text">Current</div>
                         <div class="show-card">
                             <p>Title: {{ show.title }}</p>
                             <p>Status: {{ show.status }}</p>
                             <p>Episode: {{ show.episode }}</p>
-                            <!-- check if season is truthy (not all shows have season if they only have one season) -->
+                            check if season is truthy (not all shows have season if they only have one season)   
                             <p>Season: {{ show.season ? show.season : '-' }}</p>
                             <p>Notes: {{ show.notes }}</p>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="update-show-right">
-                        <div class="prompt-text">New</div>
                         <div class ="show-card">
                     
-                    
+
                             <div class="form-group">
                                 <label for="title">Title:</label>
                                 <input 
                                     type="text" 
                                     id="title" 
-                                    v-model="newShow.title" 
+                                    v-model="show.title" 
                                     placeholder="Enter new title"
                                 />
                             </div>
@@ -36,8 +35,9 @@
                                 <input 
                                     type="number" 
                                     id="episode" 
-                                    v-model="newShow.episode" 
+                                    v-model="show.episode" 
                                     placeholder="Enter new episode"
+                                    @keydown="blockInvalidChar"
                                 />
                             </div>
 
@@ -47,14 +47,15 @@
                                 <input 
                                     type="number" 
                                     id="season" 
-                                    v-model="newShow.season" 
+                                    v-model="show.season" 
                                     placeholder="Enter new season"
+                                    @keydown="blockInvalidChar" 
                                 />
                             </div>
 
                             <div class="form-group">
                                 <label for="status">Status:</label>
-                                <select v-model="newShow.status">
+                                <select v-model="show.status">
                                     <option disabled value="">Select new status</option>
                                     <option value="watching">Watching</option>
                                     <option value="completed">Completed</option>
@@ -68,7 +69,7 @@
                                 <label for="notes">Notes:</label>
                                 <textarea 
                                     id="notes" 
-                                    v-model="newShow.notes" 
+                                    v-model="show.notes" 
                                     placeholder="Enter new notes"
                                 />
                             </div>
@@ -96,8 +97,8 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    newShow: {
-        type: Object,
+    blockInvalidChar: {
+        type: Function,
         required: true
     }
 });
