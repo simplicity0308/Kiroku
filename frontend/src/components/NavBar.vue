@@ -1,7 +1,6 @@
 <template>
  <nav class="navbar">
     <div class="container">
-      <div class="logo">Kiroku</div>
       <div class="nav-buttons">
         <button class="nav-button profile-button" @click="toggleProfileModal">Profile</button>
         <button class="nav-button logout-button" @click="handleLogout">Logout</button>
@@ -72,7 +71,7 @@ const handleLogout = async() => {
 
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
@@ -80,8 +79,9 @@ const handleLogout = async() => {
 
 .logo {
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
+  transform: skew(-15deg);
 }
 
 .nav-buttons {
