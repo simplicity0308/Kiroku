@@ -45,7 +45,7 @@ import { useToast } from 'vue-toast-notification';
 import { useRouter } from 'vue-router';
 
 // service 
-import { loginUser } from '../services/userService';
+import { loginUser, registerUser } from '../services/userService';
 
 
 // composables

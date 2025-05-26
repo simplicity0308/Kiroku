@@ -27,12 +27,28 @@ const login = async (req, res) => {
     }
 }
 
+const checkDuplicateUsername = async (req, res) => {
+    const { username } = req.query;
+
+    try {
+        const user = await userModel.findOne({ username });
+        if (user) {
+            return res.status(400).json({ message: 'Username already exists' });
+        } else {
+            return res.status(200).json({ message: 'Username is available' });
+        }
+    }  catch (error) {
+        console.error('Error checking duplicate username:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
 // helper functions
 
 
 
 module.exports = {
-    login
+    login,
+    checkDuplicateUsername
 }   
 
 

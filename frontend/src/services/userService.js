@@ -50,9 +50,60 @@ export const loginUser = async (username, password) => {
 
 
 export const registerUser = async (username, password) => {
+    console.log("Registering user:", username, 'with password:', password)
+    if (!validateUsername(username)) {
+        return {
+            success: false,
+            error: "Invalid username"  
+        }
+    } else if (!validatePassword(password)) {
+        return {
+            success: false,
+            error: "Invalid password"
+        }
+    } else if (!usernameDuplicateCheck(username)) {
+        return {
+            success: false,
+            error: "Username already taken"
+        }
+    } else {
+        console.log("Adding user: ", username, password)
 
+        try {
+            const response = await fetch(`http://localhost:3000/user/addUser`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    UnhPassword: password
+                })
+            })
+
+            if (response.ok) {
+                console.log("User register success")
+                return {success: true, message: "User registered successfully"};
+            } else {
+                console.log("User register failed")
+                const errorData = await response.json();
+                return {
+                    success: false,
+                    error: errorData.message
+                }
+            }
+
+                
+        } catch (error) {
+            console.error("Error registering user:", error);
+            return {
+                success: false,
+                error: "Error registering user"
+            }
+        }
+    }
 }
-
+// check duplicate username while reg (after init validation)
 export const logoutUser = async () => {         
 // call composables? unsure if best practice
 }
@@ -74,7 +125,7 @@ const loginValidaton = (username, password) => {
 
 const validateUsername = async (username) => {
     // check if username is valid
-    if (username.length < 3 || username.length > 20 || usernme === undefined) {
+    if (username.length < 3 || username.length > 20 || username === undefined) {
         return false;
 }
 // check if username is alphanumeric (no spaces or special characters)
@@ -97,4 +148,12 @@ if (!regex.test(password)) {
 }
     return true;
 }
-// make api call to check if username is taken
+
+const usernameDuplicateCheck = async (username) => {
+    const response = await fetch(`http://localhost:3000/user/checkDuplicateUsername/:?username=${username}`)
+    if (response.ok) {
+        return true;
+    } else {
+        return false;
+    }
+}
