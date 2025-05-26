@@ -11,6 +11,7 @@
 
   <ProfileModal
     v-model="showProfileModal"
+    :user="currentUser"
     @close="closeProfileModal"
     
   />
@@ -22,13 +23,16 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toast-notification';
 import { logoutUser } from '../services/userService';
+import { useUserStates } from '../composables/useUserStates';
+
+// composable
+const { currentUser } = useUserStates();
 
 import ProfileModal from './ProfileModal.vue';
 
 const router = useRouter();
 const toast = useToast();
-
-
+ 
 //modal state
 const showProfileModal = ref(false);
 
@@ -52,11 +56,6 @@ const handleLogout = async() => {
         router.push('/login');
     }, 1000)
 }
-
-const handleProfile = () => {
-    t
-}
-
 </script>
 
 <style scoped>

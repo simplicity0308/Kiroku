@@ -18,7 +18,7 @@ const login = async (req, res) => {
                 console.log(`Back: User ${username} logged in successfully`);
                 console.log(`Back: User ID: ${user.userId}`);
                 console.log(`Back: Username: ${user.username}`);
-                return res.status(200).json({ message: 'Login successful', userId: user.userId, username: user.username });
+                return res.status(200).json({ message: 'Login successful', userId: user.userId, username: user.username});
             }
         }
     } catch (error) {
