@@ -185,13 +185,13 @@ export const getSingularShow = async (showId) => {
     }
 }
 
-export const filterShows = async (selected) => {
+export const filterShows = async (selected, userId) => {
     try {
 
         if (!selected) {
-            return fetchAllShows();
+            return getAllShowsByUser(userId);
         }
-        const response = await fetch(`http://localhost:3000/shows/filter/?filterType=${selected}`, {
+        const response = await fetch(`http://localhost:3000/shows/filter/?filterType=${selected}&userId=${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -211,13 +211,13 @@ export const filterShows = async (selected) => {
     }
 }
 
-export const searchShows = async (searchTerm) => {
+export const searchShows = async (searchTerm, userId) => {
     try {
         if (!searchTerm) {
-            return fetchAllShows();
+            return getAllShowsByUser(userId);
         }
 
-        const response = await fetch(`http://localhost:3000/shows/search/?searchTerm=${searchTerm}`, {
+        const response = await fetch(`http://localhost:3000/shows/search?searchTerm=${searchTerm}&userId=${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -236,4 +236,5 @@ export const searchShows = async (searchTerm) => {
         return { success: false, error: error.message };
     }
 }
+
 

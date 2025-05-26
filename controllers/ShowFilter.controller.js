@@ -3,11 +3,13 @@ const showModel = require('../models/Show.js');
 // GET /filter
 const filter = async (req, res) => {
     // parse request param for filter type 
-    const { filterType } = req.query;
+    const { filterType, userId } = req.query;
     console.log("filter type:", filterType);
+    console.log("userId:", userId);
     try {
         const shows = await showModel.find({
-            status: filterType
+            status: filterType,
+            user_id: userId
         })
         console.log(`Retrieved ${shows.length} with status ${filterType}`)
         return res.status(200).json(shows);
@@ -21,8 +23,9 @@ const filter = async (req, res) => {
 
 // GET /search
 const search = async (req, res) => {
-    const { searchTerm } = req.query;
+    const { searchTerm, userId } = req.query;
     console.log("search term:", searchTerm);
+    console.log("userId:", userId);
     try {
         const results = await showModel.aggregate([
             {
@@ -36,6 +39,11 @@ const search = async (req, res) => {
                         }
                     }
                 }
+        },
+        {
+            $match: {
+                user_id: userId
+            }
         }
         ]);   
         if (results.length === 0) {

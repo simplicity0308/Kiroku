@@ -323,7 +323,7 @@ const decreaseEpisode = async (showId) => {
 
 const triggerFilterShows = async (selected) => {
     console.log("selected", selected);
-    const result = await filterShows(selected);
+    const result = await filterShows(selected, currentUser.value.userId);
     if(selected === '') {
         const result = await getAllShowsByUser(currentUser.value.userId);
         if (result.success) {

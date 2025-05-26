@@ -9,32 +9,34 @@
         <div class="sub-header-box">Please log in or register to continue</div>
         <div class="login-form">
             <div class="form-card">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        v-model="currentUser.username" 
-                        placeholder="Enter your username"
-                    />
-                </div>
+                <form @submit.prevent="submitloginUser(currentUser)">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            v-model="currentUser.username" 
+                            placeholder="Enter your username"
+                        />
+                    </div>
 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        v-model="currentUser.password" 
-                        placeholder="Enter your password"
-                    />
-                </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            v-model="currentUser.password" 
+                            placeholder="Enter your password"
+                        />
+                    </div>
 
-                <div class="submit-button">
-                    <button @click="submitloginUser(currentUser)">Login</button>
-                </div>
-                <div class="register-button">
-                    <button @click="submitRegisterUser(currentUser)">Register</button>
-                </div>
+                    <div class="submit-button">
+                        <button type="submit">Login</button>
+                    </div>
+                    <div class="register-button">
+                        <button @click="submitRegisterUser(currentUser)">Register</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
