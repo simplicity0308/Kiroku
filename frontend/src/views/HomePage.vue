@@ -33,7 +33,9 @@
             <button class="new-button" @click="toggleAddNewModal">New Entry</button>
         </div>
     </div>
+    <div class = nav-bar>
 
+    </div>
     <AddShowModal
         v-model="showAddNewModal"
         :show="newShow"
@@ -64,6 +66,8 @@
         @close="closeDeleteModal"
         @confirm="submitDeleteShow(currentShow.id)"
     />
+
+    <NavBar/>
 </template>
 
 <script setup>
@@ -72,12 +76,13 @@ import { useToast } from 'vue-toast-notification';
 
 // components
 import ShowList from '../components/ShowList.vue';
+import NavBar from '../components/NavBar.vue';
 import AddShowModal from '../components/AddShowModal.vue';
 import UpdateShowModal from '../components/UpdateShowModal.vue';
 import ViewShowModal from '../components/ViewShowModal.vue';
 import DeleteShowModal from '../components/DeleteShowModal.vue';
 import FilterHeaderModal from '../components/FilterHeaderModal.vue';
-import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow, filterShows, searchShows } from '../services/ShowService.js';
+import { addNewShow, fetchAllShows, deleteShow, updateShow, getSingularShow, getAllShowsByUser, filterShows, searchShows } from '../services/ShowService.js';
 import { changeShowEpisode } from '../services/showAttributeService.js'; 
 
 // composables
@@ -120,7 +125,8 @@ const closeAddNewModal = () => {
 // on mount, fetch existing shows
 onMounted(async () => {
     console.log("current user", currentUser.value);
-    const result = await fetchAllShows();
+    // const result = await fetchAllShows();
+    const result = await getAllShowsByUser(currentUser.value.userId);
     if (result.success) {
         existingShowList.value = result.data;
     } else {
@@ -215,7 +221,7 @@ const submitAddShow = async () => {
         console.log("Show added successfully", result.data);
         toggleAddNewModal();
         
-        const showsResult = await fetchAllShows();
+        const showsResult = await getAllShowsByUser(currentUser.value.userId);
         if (showsResult.success) {
             existingShowList.value = showsResult.data;
         } else {
@@ -239,7 +245,7 @@ const submitUpdateShow = async () => {
             console.log("Show updated successfully", result.data);
             closeUpdateModal();
             
-            const showsResult = await fetchAllShows();
+            const showsResult = await getAllShowsByUser(currentUser.value.userId);
             if (showsResult.success) {
                 existingShowList.value = showsResult.data;
 
@@ -264,7 +270,7 @@ const submitDeleteShow = async (id) => {
         console.log("Show deleted successfully", result.data);
         closeDeleteModal();
         
-        const showsResult = await fetchAllShows();
+        const showsResult = await getAllShowsByUser(currentUser.value.userId);
         if (showsResult.success) {
             existingShowList.value = showsResult.data;
         } else {
@@ -282,7 +288,7 @@ const increaseEpisode = async (showId) => {
     if (result.success) {
         console.log("Show episode increased successfully", result.data);
         toast.info("Increment successful")
-        const showsResult = await fetchAllShows();
+        const showsResult = await getAllShowsByUser(currentUser.value.userId);
         if (showsResult.success) {
             existingShowList.value = showsResult.data;
         } else {
@@ -302,7 +308,7 @@ const decreaseEpisode = async (showId) => {
     if (result.success) {
         console.log("Show episode decreased successfully", result.data);
         toast.info("Decrement successful")
-        const showsResult = await fetchAllShows();
+        const showsResult = await getAllShowsByUser(currentUser.value.userId);
         if (showsResult.success) {
             existingShowList.value = showsResult.data;
         } else {
@@ -319,7 +325,7 @@ const triggerFilterShows = async (selected) => {
     console.log("selected", selected);
     const result = await filterShows(selected);
     if(selected === '') {
-        const result = await fetchAllShows();
+        const result = await getAllShowsByUser(currentUser.value.userId);
         if (result.success) {
             existingShowList.value = result.data;
         } else {
@@ -347,7 +353,7 @@ const triggerSearch = async (searchTerm) => {
         toast.warning(result.error);
     }
 }
-
+// update val such that only shwos for current user are shown
 
 
 // generic function for number validation

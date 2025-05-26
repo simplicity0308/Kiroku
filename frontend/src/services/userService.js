@@ -1,3 +1,10 @@
+import { useUserStates } from '../composables/useUserStates'
+
+const {
+    currentUser,
+    resetCurrentUserState
+} = useUserStates();
+
 export const loginUser = async (username, password) => {
     try {
         console.log("Logging in user:", username, 'with password:', password);
@@ -103,9 +110,14 @@ export const registerUser = async (username, password) => {
         }
     }
 }
-// check duplicate username while reg (after init validation)
+
 export const logoutUser = async () => {         
-// call composables? unsure if best practice
+    resetCurrentUserState();
+    console.log("User logged out");
+    return {
+        success: true
+    }
+    
 }
 
 // dont use async on function, it will return a promise instead of the value
@@ -157,3 +169,4 @@ const usernameDuplicateCheck = async (username) => {
         return false;
     }
 }
+

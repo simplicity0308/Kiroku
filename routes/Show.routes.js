@@ -1,7 +1,8 @@
 const express = require('express');
-const {addNew, getAll, getById, updateById, deleteById} = require('../controllers/ShowOperations.controller.js');
+const {addNew, getAll, getById, updateById, deleteById, getAllByUserId} = require('../controllers/ShowOperations.controller.js');
 const { changeEpisode } = require('../controllers/ShowAttributes.controller.js');
 const { filter, search } = require('../controllers/ShowFilter.controller.js');
+const { getAllShowsByUser } = require('../frontend/src/services/showService.js');
 const router = express.Router();
 
 // Route to add a new show
@@ -27,6 +28,9 @@ router.get('/filter', filter);
 
 // Search a show by title
 router.get('/search', search);
+
+// Get all shows by user ID
+router.get('/getAllByUserId/:userId', getAllByUserId);
 
 
 // Export the router

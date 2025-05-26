@@ -47,6 +47,23 @@ const getAll = async (req, res) => {
     }
 }
 
+const getAllByUserId = async (req, res) => {
+
+    const userId = req.params.userId;
+    console.log(`User ID: ${userId}`);
+    try {
+        const shows = await showModel.find({ user_id: userId });
+        if (shows.length === 0) {
+            return res.status(404).json({ error: 'No shows found for this user' });
+        } else {
+            console.log(`Retrieved ${shows.length} shows for user ID ${userId}`);
+            return res.status(200).json(shows);
+        }
+    } catch (error) {
+        return res.status(500).json({ error: 'Failed to retrieve shows for user' });
+    }
+}
+
 // GET /getById/:id
 // maybe filter by name?
 const getById = async (req, res) => {
@@ -151,4 +168,5 @@ module.exports = {
     getById,
     updateById,
     deleteById,
+    getAllByUserId
 };

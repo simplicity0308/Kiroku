@@ -38,6 +38,8 @@ export const addNewShow = async (newShow, userId) => {
     }
 }
 
+// update to only return shows that belong to the user
+// maybe this api can leave for admin?
 export const fetchAllShows = async () => {
     try {
         const response = await fetch(`http://localhost:3000/shows/getAll`, {
@@ -58,6 +60,30 @@ export const fetchAllShows = async () => {
         console.error("Error fetching shows:", error);
         return { success: false, error: error.message };
     }
+}
+
+export const getAllShowsByUser = async (userId) => {
+    try {
+        const response = await fetch(`http://localhost:3000/shows/getAllByUserId/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log("Fetched shows by user successfully", data);
+            return { success: true, data };
+        } else {
+            console.error("Error fetching shows by user:", data);
+            return { success: false, error: data.message };
+        }
+
+    } catch (error) {
+        console.error("Error fetching shows by user:", error);
+        return { success: false, error: error.message };
+    }       
 }
 
 export const deleteShow = async (showId) =>{
@@ -210,3 +236,4 @@ export const searchShows = async (searchTerm) => {
         return { success: false, error: error.message };
     }
 }
+
