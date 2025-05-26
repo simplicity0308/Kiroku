@@ -82,6 +82,7 @@ import { changeShowEpisode } from '../services/showAttributeService.js';
 
 // composables
 import { useShowsStates } from '../composables/useShowsStates.js';
+import { useUserStates } from '../composables/useUserStates.js';
 
 // get states and actions from the composable
 const {
@@ -92,6 +93,11 @@ const {
     resetNewShow,
     resetCurrentShow
 } = useShowsStates();
+
+const {
+    currentUser,
+    resetCurrentUserState
+} = useUserStates();
 
 const toast = useToast();
 
@@ -113,6 +119,7 @@ const closeAddNewModal = () => {
 
 // on mount, fetch existing shows
 onMounted(async () => {
+    console.log("current user", currentUser.value);
     const result = await fetchAllShows();
     if (result.success) {
         existingShowList.value = result.data;
@@ -194,6 +201,7 @@ const toBottom = () => {
 
 // submission handlers
 const submitAddShow = async () => {
+    newShow.value.userId = currentUser.value.userId; 
     // input validation
     console.log("new show", newShow.value);
     if (!newShow.value.title) {

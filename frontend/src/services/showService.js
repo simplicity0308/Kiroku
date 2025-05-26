@@ -1,4 +1,6 @@
-export const addNewShow = async (newShow) => {
+export const addNewShow = async (newShow, userId) => {
+    console.log("New show: ", newShow)
+    console.log("User ID: ", userId);
     try{
         if (newShow.episode < 0) {
             console.error("Episode count cannot be negative");
@@ -18,7 +20,7 @@ export const addNewShow = async (newShow) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(newShow)
+                body: JSON.stringify(newShow, userId)
             });
 
             const data = await response.json();

@@ -30,8 +30,12 @@ export const loginUser = async (username, password) => {
                 } 
             } else {
                 console.log("Service user logged in")
+                const data = await response.json();
+                console.log("User ID:", data.userId);
                 return {
-                    success: true 
+                    success: true,
+                    userId: data.userId,
+                    username: data.username
                 }
             }
         }

@@ -42,6 +42,7 @@
 
 <script setup>
 import { useToast } from 'vue-toast-notification';
+import { useRouter } from 'vue-router';
 
 // service 
 import { loginUser } from '../services/userService';
@@ -57,7 +58,7 @@ const {
     resetCurrentUserState
 } = useUserStates();
 
-
+const router = useRouter();
 const toast = useToast();
 
 const submitloginUser = async (currentUser) => {
@@ -65,11 +66,19 @@ const submitloginUser = async (currentUser) => {
     if (result.success) {
         console.log('Login successful:');
         toast.success('Login successful!')
+
+        console.log('User data:', result);
+
+        currentUser.username = result.username;
+        currentUser.userId = result.userId;
+        currentUser.isLoggedIn = true;
+
+        console.log('Current user:', currentUser)
         toast.default('Redirecting to home page...');
         
         setTimeout(() => {
             toast.clear();
-            window.location.href = '/home';
+            router.push('/home');
         }, 1000);
 
     } else {

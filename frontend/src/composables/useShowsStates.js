@@ -18,7 +18,8 @@ export function useShowsStates () {
         episode: undefined,
         season: undefined,
         status: undefined,
-        notes: undefined
+        notes: undefined,
+        userId: undefined
     });
 
     const resetNewShow = () => {
@@ -28,7 +29,8 @@ export function useShowsStates () {
             episode: undefined,
             season: undefined,
             status: undefined,
-            notes: undefined
+            notes: undefined,
+            userId: undefined
         };
     };
 

@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/simplicity0308/Kiroku/issues"
   },
-  "homepage": "https://github.com/simplicity0308/Kiroku#readme"
+  "homepage": "https://github.com/simplicity0308/Kiroku#readme",
+  "devDependencies": {
+    "globals": "^16.2.0"
+  }
 }

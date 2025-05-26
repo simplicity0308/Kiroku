@@ -16,7 +16,9 @@ const login = async (req, res) => {
                 return res.status(401).json({ message: 'Invalid username or password' });
             } else {
                 console.log(`Back: User ${username} logged in successfully`);
-                return res.status(200).json({ message: 'Login successful', userId: user.userId });
+                console.log(`Back: User ID: ${user.userId}`);
+                console.log(`Back: Username: ${user.username}`);
+                return res.status(200).json({ message: 'Login successful', userId: user.userId, username: user.username });
             }
         }
     } catch (error) {
@@ -26,6 +28,7 @@ const login = async (req, res) => {
 }
 
 // helper functions
+
 
 
 module.exports = {

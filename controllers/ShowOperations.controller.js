@@ -3,10 +3,12 @@ const showModel = require('../models/Show.js');
 // POST /addNew
 const addNew = async (req, res) => {
     // Parse the request body
-    let { title, status, episode, season, notes  } = req.body;
+    let { title, status, episode, season, notes, userId  } = req.body;
 
     // Validation
     const validation = validate(title);
+
+    console.log(`Adding new show: ${title}, User ID: ${userId}`);
 
     if (validation.error) {
         return res.status(400).json({ error: validation.error });
@@ -20,7 +22,7 @@ const addNew = async (req, res) => {
             let newShowID = lastShow ? lastShow.id + 1 : 1;  // If no shows exist yet, start with ID 1
             console.log(`New show ID: ${newShowID}`);
 
-            const newShow = new showModel({title, id : newShowID, status, episode, season, notes });
+            const newShow = new showModel({user_id: userId, title, id : newShowID, status, episode, season, notes });
             console.log(`New show created: ${newShow}`);
             
             const savedShow = await newShow.save(); // Save to DB

@@ -1,11 +1,12 @@
 import { ref } from 'vue';
 
+const currentUser = ref({
+    id: undefined,
+    username: undefined,
+    isLoggedIn: false
+});
+
 export function useUserStates() {
-    const currentUser = ref({
-        id: undefined,
-        username: undefined,
-        isLoggedIn: false
-    });
 
     const resetCurrentUserState = () => {
         currentUser.value = {
