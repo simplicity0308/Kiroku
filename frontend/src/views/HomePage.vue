@@ -344,7 +344,7 @@ const triggerFilterShows = async (selected) => {
 
 const triggerSearch = async (searchTerm) => {
     console.log("searchTerm", searchTerm);
-    const result = await searchShows(searchTerm);
+    const result = await searchShows(searchTerm, currentUser.value.userId);
     if (result.success) {
         existingShowList.value = result.data;
         console.log("Filtered shows", result.data);
@@ -353,8 +353,6 @@ const triggerSearch = async (searchTerm) => {
         toast.warning(result.error);
     }
 }
-// update val such that only shwos for current user are shown
-
 
 // generic function for number validation
 function blockInvalidChar(event) {
@@ -523,4 +521,3 @@ function blockInvalidChar(event) {
 // archive funnction (throw to other collection)
 // view pane call external api to retrieve image (prompt image when adding new)
 // store image in db
-// user auth (bcrypt) -> validation do in service
