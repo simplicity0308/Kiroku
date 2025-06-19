@@ -21,6 +21,7 @@ export const addNewShow = async (newShow, userId) => {
         } else {
             const response = await fetch(`http://localhost:3000/shows/addNew`,{
                 method: 'POST',
+                credentials: 'include', 
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -50,6 +51,7 @@ export const fetchAllShows = async () => {
     try {
         const response = await fetch(`http://localhost:3000/shows/getAll`, {
             method: 'GET',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -73,6 +75,7 @@ export const getAllShowsByUser = async (userId) => {
     try {
         const response = await fetch(`http://localhost:3000/shows/getAllByUserId/${userId}`, {
             method: 'GET',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -98,6 +101,7 @@ export const deleteShow = async (showId) =>{
     try {
         const response = await fetch(`http://localhost:3000/shows/deleteById/${showId}`, {
             method: 'DELETE',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -141,6 +145,7 @@ export const updateShow = async (newShow, id, currentShow) => {
             console.log("sending update req")
             const response = await fetch(`http://localhost:3000/shows/updateById`, {
                 method: 'PUT',
+                credentials: 'include', 
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -174,6 +179,7 @@ export const getSingularShow = async (showId) => {
     try {
         const response = await fetch(`http://localhost:3000/shows/getById/${showId}`, {
             method: 'GET',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -200,6 +206,7 @@ export const filterShows = async (selected, userId) => {
         }
         const response = await fetch(`http://localhost:3000/shows/filter/?filterType=${selected}&userId=${userId}`, {
             method: 'GET',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -226,6 +233,7 @@ export const searchShows = async (searchTerm, userId) => {
 
         const response = await fetch(`http://localhost:3000/shows/search?searchTerm=${searchTerm}&userId=${userId}`, {
             method: 'GET',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json'
             }

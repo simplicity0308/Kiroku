@@ -31,11 +31,18 @@ const login = async (req, res) => {
 
                 console.log(`Back: JWT token generated for user ${username}: ${token}`);
 
+                res.cookie('token', token, {
+                    httpOnly: true, //prevent client side js to access cookie
+                    secure: process.env.NODE_ENV === 'production', //use secure cookies in production
+                    sameSite: 'Strict', //prevent CSRF attacks
+                    maxAge: 20 * 60 * 1000 //20 minutes in milliseconds, this is how long will the browser will wait before nuke the token
+                })
+
                 return res.status(200).json({ 
                     message: 'Login successful', 
                     userId: user.userId, 
                     username: user.username,
-                    token: token
+                    // token: token -> not needed since now stored in cookie above
                 });
             }
         }
@@ -60,12 +67,21 @@ const checkDuplicateUsername = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
-// helper functions
 
+const logout = (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict'
+    });
+    console.log('User logged out, cookie cleared');
+    return res.status(200).json({ message: 'Logout successful' });
+}
 
 
 module.exports = {
     login,
+    logout,
     checkDuplicateUsername
 }   
 

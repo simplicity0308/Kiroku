@@ -22,6 +22,7 @@ export const loginUser = async (username, password) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include", // include cookies in the request
                 body: JSON.stringify({
                     username,
                     password
@@ -79,6 +80,7 @@ export const registerUser = async (username, password) => {
         try {
             const response = await fetch(`http://localhost:3000/user/addUser`, {
                 method: "POST",
+                credentials: 'include', 
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -111,15 +113,28 @@ export const registerUser = async (username, password) => {
     }
 }
 
-// add function to reset jwt token
 // reset browser cookie
 export const logoutUser = async () => {         
-    resetCurrentUserState();
-    console.log("User logged out");
-    return {
-        success: true
+    try {
+        await fetch("http://localhost:3000/user/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include" // include cookies in the request
+        });
+        resetCurrentUserState();
+        console.log("User logged out");
+        return {
+            success: true
+        };
+    } catch (error) {
+        console.error("Error logging out:", error);
+        return {
+            success: false,
+            error: "Error logging out"
+        }
     }
-    
 }
 
 // dont use async on function, it will return a promise instead of the value
@@ -164,7 +179,9 @@ if (!regex.test(password)) {
 }
 
 const usernameDuplicateCheck = async (username) => {
-    const response = await fetch(`http://localhost:3000/user/checkDuplicateUsername/:?username=${username}`)
+    const response = await fetch(`http://localhost:3000/user/checkDuplicateUsername/:?username=${username}`, {
+        credentials: 'include', 
+    })
     if (response.ok) {
         return true;
     } else {

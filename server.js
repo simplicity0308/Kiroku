@@ -5,6 +5,7 @@ const connectDB = require('./config/db.js');
 const app = express();
 const port = 3000;
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 
 // Logging middleware (view in terminal/console)
@@ -16,9 +17,11 @@ app.use((req, res, next) => {
 // Middleware
 connectDB(); // Connect to MongoDB
 app.use(express.json());  // Parse JSON in request body
+app.use(cookieParser()); // Parse cookies in request
 app.use(cors({
     origin: 'http://localhost:5173', // Allow requests from this origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+    credentials: true // Allow cookies to be sent with requests
 }))
 
 // Routes

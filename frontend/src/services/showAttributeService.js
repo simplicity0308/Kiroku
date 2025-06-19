@@ -3,6 +3,7 @@ export const changeShowEpisode = async (showId, episode) => {
     try {
         const response = await fetch(`http://localhost:3000/shows/changeEpisode`, {
             method: 'PUT',
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json'
             },
