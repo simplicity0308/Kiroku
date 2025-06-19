@@ -1,6 +1,7 @@
 # Kiroku - Show Tracking Application
 
-**Kiroku** is a full-stack web application that helps you track shows in various states using Vue 3, Express.js, and MongoDB Atlas.
+**Kiroku** is a full-stack web application that helps you track shows in various states using Vue 3, Express.js, and MongoDB Atlas. 
+Basic JWT authentication is implemented to secure API endpoints by verifying the identity of clients through digitally signed tokens stored locally in each browser session.
 
 ## Prerequisites
 
