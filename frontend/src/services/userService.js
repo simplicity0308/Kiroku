@@ -111,6 +111,8 @@ export const registerUser = async (username, password) => {
     }
 }
 
+// add function to reset jwt token
+// reset browser cookie
 export const logoutUser = async () => {         
     resetCurrentUserState();
     console.log("User logged out");

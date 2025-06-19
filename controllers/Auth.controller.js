@@ -1,6 +1,8 @@
 const userModel = require('../models/User.js');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+const env = require('dotenv');
+env.config();
 
 const login = async (req, res) => {
     const { username, password } = req.body;
@@ -18,7 +20,23 @@ const login = async (req, res) => {
                 console.log(`Back: User ${username} logged in successfully`);
                 console.log(`Back: User ID: ${user.userId}`);
                 console.log(`Back: Username: ${user.username}`);
-                return res.status(200).json({ message: 'Login successful', userId: user.userId, username: user.username});
+
+                // generate jwt token
+                const token = jwt.sign({
+                    userId: user.userId,
+                    username: user.username
+                }, process.env.JWT_SECRET, {
+                    expiresIn: '20minutes' 
+                })
+
+                console.log(`Back: JWT token generated for user ${username}: ${token}`);
+
+                return res.status(200).json({ 
+                    message: 'Login successful', 
+                    userId: user.userId, 
+                    username: user.username,
+                    token: token
+                });
             }
         }
     } catch (error) {

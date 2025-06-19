@@ -1,4 +1,8 @@
 export const addNewShow = async (newShow, userId) => {
+    const token = localStorage.getItem('token');
+    console.log("Token front: ", token);
+
+
     console.log("New show: ", newShow)
     console.log("User ID: ", userId);
     try{
@@ -18,7 +22,8 @@ export const addNewShow = async (newShow, userId) => {
             const response = await fetch(`http://localhost:3000/shows/addNew`,{
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(newShow, userId)
             });
@@ -38,14 +43,16 @@ export const addNewShow = async (newShow, userId) => {
     }
 }
 
-// update to only return shows that belong to the user
-// maybe this api can leave for admin?
+// api for admin use
 export const fetchAllShows = async () => {
+        const token = localStorage.getItem('token');
+        console.log("Token front: ", token);
     try {
         const response = await fetch(`http://localhost:3000/shows/getAll`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         });
         const data = await response.json();

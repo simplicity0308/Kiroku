@@ -4,6 +4,11 @@ const { changeEpisode } = require('../controllers/ShowAttributes.controller.js')
 const { filter, search } = require('../controllers/ShowFilter.controller.js');
 const router = express.Router();
 
+const { checkToken } = require('../middleware/tokenAuth.js');
+
+// Apply token authentication middleware to all routes
+router.use(checkToken);
+
 // Route to add a new show
 router.post('/addNew', addNew);
 
